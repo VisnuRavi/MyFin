@@ -2,6 +2,14 @@
 import "package:flutter/material.dart";
 import 'pages/home.dart';
 
-void main() => runApp(MaterialApp(
-  home: Home(),
-));
+void main() => runApp(MyFin());
+
+class MyFin extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Home(),
+    );
+  }
+}
