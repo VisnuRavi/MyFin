@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: prefer_const_constructors
+import "package:flutter/material.dart";
+import 'pages/home.dart';
 
-void main() =>  runApp(new MaterialApp(
-  home: new Text("hwer"),
+void main() => runApp(MaterialApp(
+  home: Home(),
 ));
