@@ -26,6 +26,7 @@ class _InvestFormState extends State<InvestForm> {
             RequiredFormQuestion("Stock ID"),
             RequiredFormQuestion("Bought Price"),
             RequiredFormQuestion("Bought Date"),
+            RequiredFormQuestion("Brokerage"),
             OptionalFormQuestion("Sold Price"),
             OptionalFormQuestion("Sold Date"),
             ElevatedButton(
