@@ -23,7 +23,7 @@ class _InvestFormState extends State<InvestForm> {
         child: ListView(
           children: <Widget>[
             RequiredFormQuestion("Stock Name"),
-            RequiredFormQuestion("Stock ID"),
+            RequiredFormQuestion("Stock Symbol"),
             RequiredFormQuestion("Bought Price"),
             RequiredFormQuestion("Bought Date"),
             RequiredFormQuestion("Brokerage"),

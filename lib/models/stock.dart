@@ -1,14 +1,14 @@
 class Stock {
-  int id;
-  String stock_name;
-  String stock_id;
+  int? id;
+  String name;
+  String symbol;
   double bought_price;
   DateTime bought_date;
   String brokerage;
   double? sold_price;
   DateTime? sold_date;
 
-  Stock({required this.id, required this.stock_name, required this.stock_id, required this.bought_price,required this.bought_date, required this.brokerage, this.sold_price, this.sold_date});
+  Stock({required this.id, required this.name, required this.symbol, required this.bought_price,required this.bought_date, required this.brokerage, this.sold_price, this.sold_date});
 
   Map<String, dynamic> toMap() {
     String? isoSoldDate = null;
@@ -17,8 +17,8 @@ class Stock {
     }
     return {
       'id': id,
-      'stock_name': stock_name,
-      'stock_id': stock_id,
+      'name': name,
+      'symbol': symbol,
       'bought_price': bought_price,
       'bought_date': bought_date.toIso8601String(),//convert for easier storage in sqlite
       'brokerage': brokerage,
@@ -27,19 +27,25 @@ class Stock {
     };
   } 
 
-  /*Stock.fromDB(Map<String, dynamic> map) { //i think cant coz possible to put in null to the non nullables
-    this.id = map['id'];
-    this.stock_name = map['stock_name'];
-    this.stock_id = map['stock_id'];
-    this.brokerage = map['brokerage'];
-    this.bought_price = map['bought_price'];
-    this.bought_date = map['bought_date'];
-    this.sold_price = map['sold_price'];
-    this.sold_date = map['sold_date'];
-  }*/
+  static Stock fromDB(Map<String, dynamic> map) { //i think cant use named constructor coz possible to put in null to the non nullables. just use method and put inside
+    return Stock(
+      id: map['id'] as int,
+      name: map['name'] as String,
+      symbol: map['symbol'] as String,
+      brokerage: map['brokerage'] as String,
+      bought_price: map['bought_price'] as double,
+      bought_date: map['bought_date'] as DateTime,
+      sold_price: map['sold_price'] as double,
+      sold_date: map['sold_date'] as DateTime,
+    );
+  }
+
+  void setId(int id) {
+    this.id = id;
+  }
 
   @override
   String toString() {
-    return "Stock{id: $id, stock name: $stock_name, stock id: $stock_id, brokerage: $brokerage, bought price: $bought_price, bought date: $bought_date, sold price: $sold_price, sold date: $sold_date}";
+    return "Stock{id: $id, stock name: $name, stock id: $symbol, brokerage: $brokerage, bought price: $bought_price, bought date: $bought_date, sold price: $sold_price, sold date: $sold_date}";
   }
 }
