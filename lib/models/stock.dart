@@ -8,7 +8,7 @@ class Stock {
   double? sold_price;
   DateTime? sold_date;
 
-  Stock({required this.id, required this.name, required this.symbol, required this.bought_price,required this.bought_date, required this.brokerage, this.sold_price, this.sold_date});
+  Stock({this.id, required this.name, required this.symbol, required this.bought_price,required this.bought_date, required this.brokerage, this.sold_price, this.sold_date});
 
   Map<String, dynamic> toMap() {
     String? isoSoldDate = null;

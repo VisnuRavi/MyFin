@@ -8,7 +8,7 @@ import 'package:path/path.dart';
 import 'package:myfin/models/stock.dart';//try move to separate
 
 class MyFinDB {
-  static final MyFinDB dbInstance = MyFinDB._createInstance(); //?
+  static final MyFinDB dbInstance = MyFinDB._createInstance(); //? Singleton pattern, so use this dbinstance to do everything in this class
   static Database? _database;
 
   MyFinDB._createInstance(); //private constructor
@@ -23,6 +23,7 @@ class MyFinDB {
   Future<Database> _initDB(String filename) async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filename);
+    print(path);
     return await openDatabase(path, version: 1, onCreate: _createDB);
   }
 
@@ -83,7 +84,6 @@ class MyFinDB {
       whereArgs: [stock.id],
     );
   }
-
 
   Future<void> close() async {
     final db = await dbInstance.database;

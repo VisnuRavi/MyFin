@@ -3,9 +3,11 @@ import "package:flutter/material.dart";
 class RequiredFormQuestion extends StatelessWidget {
 
   String label = "";
+  Function saveFunction = () => print("uninitialised");
   
-  RequiredFormQuestion(String label) {
+  RequiredFormQuestion(String label, Function saveFunction) {
     this.label = label;
+    this.saveFunction = saveFunction;
   }
 
   @override
@@ -23,6 +25,7 @@ class RequiredFormQuestion extends StatelessWidget {
           } 
           return null;
         },
+        onSaved: saveFunction(),
       ),
     );
   }
@@ -31,9 +34,11 @@ class RequiredFormQuestion extends StatelessWidget {
 class OptionalFormQuestion extends  StatelessWidget {
   
   String label = "";
+  Function saveFunction = () => print("uninitialised");
   
-  OptionalFormQuestion(String label) {
+  OptionalFormQuestion(String label, Function saveFunction) {
     this.label = label;
+    this.saveFunction = saveFunction;
   }
   @override
   Widget build(BuildContext context) {
@@ -44,6 +49,7 @@ class OptionalFormQuestion extends  StatelessWidget {
           labelText: label,
           border: UnderlineInputBorder(),
         ),
+        onSaved: saveFunction(),
       )
     );
   }
