@@ -18,6 +18,7 @@ class _InvestFormState extends State<InvestForm> {
   double boughtPrice = 0;
   DateTime boughtDate = DateTime.now();
   String brokerage = '';
+  int lots = 0;
   double? soldPrice;
   DateTime? soldDate;
 
@@ -27,10 +28,20 @@ class _InvestFormState extends State<InvestForm> {
       appBar: AppBar(
         title: Text("Investments Form"),
       ),
-      body: Form(
+      body: 
+      Form(
         key: _formKey,
         child: ListView(
           children: <Widget>[
+            SizedBox(height: 10.0),
+            Center(
+              child: Text(
+                "New Investment",
+                style: TextStyle(
+                  fontSize: 25.0,
+                ),
+              ),
+            ),
             RequiredFormQuestion("Stock Name", 
               () => (value) { //have to make it such that the method can be called from the template, with the parameters needed, so have extra (), else need to also pass in value as a param i believe
                 //setState(() {name = value;}); // not necessary to set state as not changing the view, not rebuilding widget i think
@@ -51,7 +62,10 @@ class _InvestFormState extends State<InvestForm> {
             RequiredFormQuestion("Brokerage", 
             () => (value) => brokerage = value
             ),
-            OptionalFormQuestion("Sold Price", 
+            RequiredFormQuestion("Lots", 
+            () => (value) => lots = int.parse(value)
+            ),
+            OptionalFormQuestion("Sold Price (optional)", 
               () => (value) {
                 if (value == "") {
                   soldPrice = null;
@@ -60,7 +74,7 @@ class _InvestFormState extends State<InvestForm> {
                 }
               }
             ),
-            OptionalFormQuestion("Sold Date (YYYY-MM-DD)", 
+            OptionalFormQuestion("Sold Date (YYYY-MM-DD) (optional)", 
               () => (value) {
                 if (value == "") {
                   soldDate = null;
@@ -84,6 +98,7 @@ class _InvestFormState extends State<InvestForm> {
                   print(soldDate);*/
                   /*Stock stock = Stock(name: name, symbol: symbol, bought_price: boughtPrice, bought_date: boughtDate, brokerage: brokerage, sold_price: soldPrice, sold_date: soldDate);
                   MyFinDB.dbInstance.insertStock(stock);*/
+                  Navigator.pop(context);
                 } else {
                   print("invalid");
                 }
