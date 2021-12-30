@@ -27,12 +27,11 @@ class InvestDetails extends StatelessWidget {//stateless 1st then add the edit a
                 Text("Bought Date: ${stock.bought_date.day.toString()}/${stock.bought_date.month.toString()}/${stock.bought_date.year.toString()}"),
                 SizedBox(width:20.0),
                 Text("Bought: ${stock.bought_price.toString()}"),
-                //add percentage
               ],
             ),
             SizedBox(height:10.0),
             Padding(
-              padding: const EdgeInsets.fromLTRB(80.0, 0, 0, 0),
+              padding: const EdgeInsets.fromLTRB(188.0, 0, 0, 0),
               child: stock.percentageChange(stock.sold_price!),
             ),
             SizedBox(height: 10.0,),

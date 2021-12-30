@@ -9,8 +9,8 @@ class Stock {
   DateTime bought_date = DateTime.parse('2021-12-12');
   String brokerage = 'eg';
   int lots = 0;
-  double? sold_price;
-  DateTime? sold_date;
+  double? sold_price = 0.0;
+  DateTime? sold_date = DateTime.parse('2021-12-12');
 
   Stock({this.id, required this.name, required this.symbol, required this.bought_price,required this.bought_date, required this.brokerage, required this.lots, this.sold_price, this.sold_date});
 
@@ -35,16 +35,20 @@ class Stock {
   } 
 
   static Stock fromDB(Map<String, dynamic> map) { //i think cant use named constructor coz possible to put in null to the non nullables. just use method and put inside
+    DateTime? mapSoldDate = null;
+    if (map['sold_date'] != null) {
+      mapSoldDate = DateTime.parse(map['sold_date'] as String);
+    }
     return Stock(
       id: map['id'] as int,
       name: map['name'] as String,
       symbol: map['symbol'] as String,
       brokerage: map['brokerage'] as String,
       bought_price: map['bought_price'] as double,
-      bought_date: map['bought_date'] as DateTime,
+      bought_date: DateTime.parse(map['bought_date'] as String),
       lots: map['lots'],
-      sold_price: map['sold_price'] as double,
-      sold_date: map['sold_date'] as DateTime,
+      sold_price: map['sold_price'] as double?,
+      sold_date: mapSoldDate,//must always handle the null values!!
     );
   }
 
@@ -55,18 +59,35 @@ class Stock {
   Widget percentageChange(double price) {
     double change = ((price - bought_price)/bought_price) * 100;
     if (change >= 0) {
-      return Text(
-        "+${change.toString()}%",
-        style: TextStyle(
-          color: Colors.green
-        ),
+      return Row(
+        children: [
+          Icon(
+            Icons.arrow_drop_up,
+            color: Colors.green,
+          ),
+          Text(
+            "${change.toString()}%",
+            style: TextStyle(
+              color: Colors.green
+            ),
+          ),
+        ],
       );
     } else {
-      return Text(
-        "${change.toString()}%",
-        style: TextStyle(
-          color: Colors.red
-        ),
+      change = change.abs();
+      return Row(
+        children: [
+          Icon(
+            Icons.arrow_drop_down,
+            color: Colors.red,
+          ),
+          Text(
+            "${change.toString()}%",
+            style: TextStyle(
+              color: Colors.red
+            ),
+          ),
+        ],
       );
     }
   } 
