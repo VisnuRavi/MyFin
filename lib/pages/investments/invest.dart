@@ -69,9 +69,10 @@ class _InvestState extends State<Invest> {
       ),
       body: bodyLayout(stocks),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
           print('clicked investform');
-          Navigator.pushNamed(context, '/invest_form');
+          await Navigator.pushNamed(context, '/invest_form');
+          refreshStocksList();//has setState in it
         },
         child: Icon(
           Icons.add,
