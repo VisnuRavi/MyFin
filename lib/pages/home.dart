@@ -38,6 +38,7 @@ class _HomeState extends State<Home> {
                 OutlinedButton(
                   onPressed: () {
                     print('clicked invest');
+                    Navigator.pushNamed(context, '/invest');
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical:20.0, horizontal:0.0),
