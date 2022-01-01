@@ -22,6 +22,80 @@ class _InvestFormState extends State<InvestForm> {
   double? soldPrice;
   DateTime? soldDate;
 
+  bool isNullOrEmpty(value) {
+    if (value == null || value.isEmpty) {
+      return true;
+    }
+    return false;
+  }
+
+  String? nameValidator(value) {
+    if (isNullOrEmpty(value)) {
+      return 'Required';
+    }//check if stock exist
+    return null;
+  }
+
+  String? symbolValidator(value) {
+    if (isNullOrEmpty(value)) {
+      return 'Required';
+    }//check if stock exist
+    return null;
+  }
+
+  String? numValidator(value) {
+    if (isNullOrEmpty(value)) {
+      return 'Required';
+    }
+    dynamic number = num.tryParse(value);
+    if (number == null) {
+      return 'Enter a value';
+    }
+    return null;
+  }
+
+  String? optionalNumValidator(value) {
+    if (!isNullOrEmpty(value)) {
+      dynamic number = num.tryParse(value);
+      if (number == null) {
+        return 'Enter a value';
+      }
+      return null;
+    }
+    return null;
+  }
+
+  String? brokerageValidator(value) {  
+    if (isNullOrEmpty(value)) {
+      return 'Required';
+    }
+    return null;
+  }
+
+  String? dateValidator(value) {//need a better validator to check for valid month and day
+    if (isNullOrEmpty(value)) {
+      return 'Required';
+    }
+    DateTime? datetime = DateTime.tryParse(value);
+    if (datetime == null) {
+      return "Enter date in the correct format";
+    }
+    return null;
+  }
+
+  String? optionalDateValidator(value) {//need to validate that this date is after the bought date
+    if (!isNullOrEmpty(value)) {
+      DateTime? datetime = DateTime.tryParse(value);
+      if (datetime == null) {
+        return "Enter date in the correct format";
+      }
+      return null;
+    }
+    return null;
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,46 +118,52 @@ class _InvestFormState extends State<InvestForm> {
                   ),
                 ),
               ),
-              RequiredFormQuestion("Stock Name", 
+              FormQuestion("Stock Name", 
                 () => (value) { //have to make it such that the method can be called from the template, with the parameters needed, so have extra (), else need to also pass in value as a param i believe
                   //setState(() {name = value;}); // not necessary to set state as not changing the view, not rebuilding widget i think
                   name = value;
-                } 
+                }, 
+                () => (value) => nameValidator(value)
               ),
-              RequiredFormQuestion("Stock Symbol",
-                () => (value) => symbol = value
+              FormQuestion("Stock Symbol",
+                () => (value) => symbol = value,
+                () => (value) => symbolValidator(value)
               ),
-              RequiredFormQuestion("Bought Price",
-                () => (value) => boughtPrice = double.parse(value)
+              FormQuestion("Bought Price",
+                () => (value) => boughtPrice = double.parse(value),
+                () => (value) => numValidator(value)
               ),
-              RequiredFormQuestion("Bought Date (YYYY-MM-DD)",
-              () => (value) {
-                boughtDate = DateTime.parse(value);
-                }
+              FormQuestion("Bought Date (YYYY-MM-DD)",
+              () => (value) {boughtDate = DateTime.parse(value);},
+              () => (value) => dateValidator(value)
               ),
-              RequiredFormQuestion("Brokerage", 
-              () => (value) => brokerage = value
+              FormQuestion("Brokerage", 
+              () => (value) => brokerage = value,
+              () => (value) => brokerageValidator(value)
               ),
-              RequiredFormQuestion("Lots", 
-              () => (value) => lots = int.parse(value)
+              FormQuestion("Lots", 
+              () => (value) => lots = int.parse(value),
+              () => (value) => numValidator(value)
               ),
-              OptionalFormQuestion("Sold Price (optional)", 
-                () => (value) {
-                  if (value == "") {
+              FormQuestion("Sold Price (optional)", 
+                () => (value) => num.tryParse(value),
+                  /*if (value == "") {
                     soldPrice = null;
                   } else {
                     soldPrice = double.parse(value);
                   }
-                }
+                },*/
+                () => (value) => optionalNumValidator(value)
               ),
-              OptionalFormQuestion("Sold Date (YYYY-MM-DD) (optional)", 
-                () => (value) {
-                  if (value == "") {
+              FormQuestion("Sold Date (YYYY-MM-DD) (optional)", 
+                () => (value) => soldDate = DateTime.tryParse(value),
+                  /*if (value == "") {
                     soldDate = null;
                   } else {
                     soldDate = DateTime.parse(value);
                   }
-                }
+                },*/
+                () => (value) => optionalDateValidator(value)//need check to see if after bought date
               ),
               ElevatedButton(
                 onPressed: () {

@@ -1,13 +1,15 @@
 import "package:flutter/material.dart";
 
-class RequiredFormQuestion extends StatelessWidget {
+class FormQuestion extends StatelessWidget {
 
   String label = "";
   Function saveFunction = () => print("uninitialised");
+  Function validatorFn = () => print("uninitialised validator");
   
-  RequiredFormQuestion(String label, Function saveFunction) {
+  FormQuestion(String label, Function saveFunction, Function validatorFn) {
     this.label = label;
     this.saveFunction = saveFunction;
+    this.validatorFn = validatorFn;
   }
 
   @override
@@ -19,18 +21,13 @@ class RequiredFormQuestion extends StatelessWidget {
           labelText: label,
           border: UnderlineInputBorder(),
         ),
-        validator: (value) {//try to combine the 2 classes, the null for Function instance is causing probs..
-          if (value == null || value.isEmpty) {
-            return 'Required';
-          } 
-          return null;
-        },
+        validator: validatorFn(),
         onSaved: saveFunction(),
       ),
     );
   }
 }
-
+/*
 class OptionalFormQuestion extends  StatelessWidget {
   
   String label = "";
@@ -53,4 +50,4 @@ class OptionalFormQuestion extends  StatelessWidget {
       )
     );
   }
-}
+}*/

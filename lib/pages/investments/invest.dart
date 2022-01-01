@@ -49,6 +49,10 @@ class _InvestState extends State<Invest> {
     /*for (int i = 1; i<=19; i++) {
       MyFinDB.dbInstance.deleteStockById(i);
     }*/
+
+    /*for (int i=0; i<stocks.length; i++) {
+      print(stocks[i]);
+    }*/
     setState(() {
       //stocks = await MyFinDB.dbInstance.readAllStocks(); //dont do async within setstate
       isLoading = false;
@@ -103,29 +107,46 @@ class _InvestState extends State<Invest> {
       );
     } else {
       return ListView.builder(
-          itemCount: stocks.length,
-          itemBuilder: (context, index) {
-            return Card(
-              child: ListTile(
-                title: Text("${stocks[index].name} (${stocks[index].symbol})"),
-                subtitle: Row(
-                  children: [
-                    Text("Bought: ${stocks[index].bought_price.toString()}"),
-                    SizedBox(width: 10.0),
-                    Text("Sold: ${stocks[index].sold_price.toString()}"),
-                    SizedBox(width:20.0),
-                    stocks[index].percentageChange(stocks[index].sold_price!),
-                  ],
-                ),
-                onTap: () {
-                  Navigator.pushNamed(context, '/invest_details', arguments: {
-                    'stock' : stocks[index]
-                  });
-                },
-              )
-            );
-          }
-        );
+        itemCount: stocks.length,
+        itemBuilder: (context, index) {
+          return Card(
+            child: ListTile(
+              title: Text("${stocks[index].name} (${stocks[index].symbol})"),
+              subtitle: Row(
+                children: [
+                  Text("Bought: ${stocks[index].bought_price.toString()}"),
+                  SizedBox(width: 10.0),
+                  displaySoldPrice(stocks[index]),
+                  SizedBox(width:20.0),
+                  displayPercentage(stocks[index]),
+                ],
+              ),
+              onTap: () {
+                Navigator.pushNamed(context, '/invest_details', arguments: {
+                  'stock' : stocks[index]
+                });
+              },
+            )
+          );
+        }
+      );
     }
   }
+
+  Widget displaySoldPrice(Stock s) {
+    if (s.sold_price == null) {
+      return Text("Sold: -");
+    } else {
+      return Text("Sold: ${s.sold_price.toString()}");
+    }
+  }
+
+  Widget displayPercentage(Stock s) {
+    if (s.sold_price == null) {
+      return Text("-");
+    } else {
+      return s.percentageChange(s.sold_price!);
+    }
+  }
+
 }

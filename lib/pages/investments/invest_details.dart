@@ -30,18 +30,9 @@ class InvestDetails extends StatelessWidget {//stateless 1st then add the edit a
               ],
             ),
             SizedBox(height:10.0),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(188.0, 0, 0, 0),
-              child: stock.percentageChange(stock.sold_price!),
-            ),
+            displayPercentage(stock),
             SizedBox(height: 10.0,),
-            Row(
-              children: [
-                Text("Sold Date: ${stock.sold_date!.day.toString()}/${stock.sold_date!.month.toString()}/${stock.sold_date!.year.toString()}"),
-                SizedBox(width:38.0),
-                Text("Sold: ${stock.sold_price.toString()}"),
-              ],
-            ),
+            displaySold(stock),
             SizedBox(height:10.0),
             Row(
               children: [
@@ -55,4 +46,39 @@ class InvestDetails extends StatelessWidget {//stateless 1st then add the edit a
       ),
     );
   }
+
+    Widget displaySold(Stock s) {
+    if (s.sold_price == null) {
+      return Row(
+        children: [
+          Text("Sold Date: -"),
+          SizedBox(width:118.0),
+          Text("Sold: -"),
+        ],
+      );
+    } else {
+      return Row(
+        children: [
+          Text("Sold Date: ${stock.sold_date!.day.toString()}/${stock.sold_date!.month.toString()}/${stock.sold_date!.year.toString()}"),
+          SizedBox(width:38.0),
+          Text("Sold: ${stock.sold_price.toString()}"),
+        ],
+      );
+    }
+  }
+
+  Widget displayPercentage(Stock s) {
+    if (s.sold_price == null) {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(50.0, 0, 0, 0),//why so diff from below??
+        child: Text("-"),
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(188.0, 0, 0, 0),
+        child: s.percentageChange(s.sold_price!),
+      );
+    }
+  }
+
 }
