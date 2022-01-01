@@ -17,6 +17,7 @@ class FormQuestion extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
       child: TextFormField(
+        initialValue: null,
         decoration: InputDecoration(
           labelText: label,
           border: UnderlineInputBorder(),

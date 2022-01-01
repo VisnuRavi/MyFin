@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myfin/models/stock.dart';
+import 'package:myfin/database/myfin_db.dart';
 
 class InvestDetails extends StatelessWidget {//stateless 1st then add the edit and delete function
   Stock stock = Stock.zero();
@@ -14,12 +15,12 @@ class InvestDetails extends StatelessWidget {//stateless 1st then add the edit a
         title: Text("Details"),
       ),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+        padding: const EdgeInsets.fromLTRB(8.0, 10.0, 8.0, 10.0),
         child: Column(
           children: [
             Text(
               "${stock.name} (${stock.symbol})",
-              style: TextStyle(fontSize: 35.0),
+              style: TextStyle(fontSize: 30.0),
             ),
             SizedBox(height: 20.0),
             Row(
@@ -41,6 +42,32 @@ class InvestDetails extends StatelessWidget {//stateless 1st then add the edit a
                 Text("Lots: ${stock.lots.toString()}")
               ],
             ),
+            Expanded(//expands to take the rest of the area
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Row(
+                  children: <Widget> [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        child: Text("Edit"),
+                      ),
+                    ),
+                    SizedBox(width:10.0),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          MyFinDB.dbInstance.deleteStock(stock);
+                          Navigator.pop(context);
+                        },
+                        child: Text("Delete"),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            //Text("sdf"),
           ],
         ),
       ),

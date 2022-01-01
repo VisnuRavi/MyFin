@@ -121,10 +121,11 @@ class _InvestState extends State<Invest> {
                   displayPercentage(stocks[index]),
                 ],
               ),
-              onTap: () {
-                Navigator.pushNamed(context, '/invest_details', arguments: {
+              onTap: () async {
+                await Navigator.pushNamed(context, '/invest_details', arguments: {
                   'stock' : stocks[index]
                 });
+                refreshStocksList();
               },
             )
           );
