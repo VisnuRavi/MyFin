@@ -92,6 +92,17 @@ class Stock {
     }
   } 
 
+  void updateStock(String editedName, String editedSymbol, double editedBought_price, DateTime editedBought_date, String editedBrokerage, int editedLots, double? editedSold_price, DateTime? editedSold_date) {
+    this.name = editedName;
+    this.symbol = editedSymbol;
+    this.bought_price = editedBought_price;
+    this.bought_date = editedBought_date;
+    this.brokerage = editedBrokerage;
+    this.lots = editedLots;
+    this.sold_price = editedSold_price;
+    this.sold_date = editedSold_date;
+  }
+
   @override
   String toString() {
     return "Stock{id: $id, stock name: $name, stock id: $symbol, brokerage: $brokerage, bought price: $bought_price, bought date: $bought_date, lots: $lots, sold price: $sold_price, sold date: $sold_date}";

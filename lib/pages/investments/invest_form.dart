@@ -22,6 +22,31 @@ class _InvestFormState extends State<InvestForm> {
   double? soldPrice;
   DateTime? soldDate;
 
+  Stock? s;
+  String? initName;
+  String? initSym;
+  String? initBoughtP;
+  String? initBoughtD;
+  String? initBrokerage;
+  String? initLots;
+  String? initSoldP;
+  String? initSoldD;
+
+  void updateInit() {
+    if (s != null) {
+      initName = s!.name;
+      initSym = s!.symbol;
+      initBoughtP = s!.bought_price.toString();
+      initBoughtD = s!.bought_date.toIso8601String();
+      initBrokerage = s!.brokerage;
+      initLots = s!.lots.toString();
+      if (s!.sold_price != null) {
+        initSoldP = s!.sold_price!.toString();
+        initSoldD = s!.sold_date!.toIso8601String();
+      }
+    }
+  }
+
   bool isNullOrEmpty(value) {
     if (value == null || value.isEmpty) {
       return true;
@@ -98,6 +123,14 @@ class _InvestFormState extends State<InvestForm> {
 
   @override
   Widget build(BuildContext context) {
+    dynamic map = ModalRoute.of(context)!.settings.arguments;
+    if (map != null) {
+      map = map as Map<String, Stock>;
+      print("map not null");
+      s = map['stock']!;
+      updateInit();
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Investments Form"),
@@ -119,6 +152,7 @@ class _InvestFormState extends State<InvestForm> {
                 ),
               ),
               FormQuestion("Stock Name", 
+                initName,
                 () => (value) { //have to make it such that the method can be called from the template, with the parameters needed, so have extra (), else need to also pass in value as a param i believe
                   //setState(() {name = value;}); // not necessary to set state as not changing the view, not rebuilding widget i think
                   name = value;
@@ -126,27 +160,33 @@ class _InvestFormState extends State<InvestForm> {
                 () => (value) => nameValidator(value)
               ),
               FormQuestion("Stock Symbol",
+                initSym,
                 () => (value) => symbol = value,
                 () => (value) => symbolValidator(value)
               ),
               FormQuestion("Bought Price",
+                initBoughtP,
                 () => (value) => boughtPrice = double.parse(value),
                 () => (value) => numValidator(value)
               ),
               FormQuestion("Bought Date (YYYY-MM-DD)",
-              () => (value) {boughtDate = DateTime.parse(value);},
-              () => (value) => dateValidator(value)
+                initBoughtD,
+                () => (value) {boughtDate = DateTime.parse(value);},
+                () => (value) => dateValidator(value)
               ),
               FormQuestion("Brokerage", 
-              () => (value) => brokerage = value,
-              () => (value) => brokerageValidator(value)
+                initBrokerage,
+                () => (value) => brokerage = value,
+                () => (value) => brokerageValidator(value)
               ),
               FormQuestion("Lots", 
-              () => (value) => lots = int.parse(value),
-              () => (value) => numValidator(value)
+                initLots,
+                () => (value) => lots = int.parse(value),
+                () => (value) => numValidator(value)
               ),
               FormQuestion("Sold Price (optional)", 
-                () => (value) => num.tryParse(value),
+                initSoldP,
+                () => (value) => soldPrice = double.tryParse(value),
                   /*if (value == "") {
                     soldPrice = null;
                   } else {
@@ -155,7 +195,8 @@ class _InvestFormState extends State<InvestForm> {
                 },*/
                 () => (value) => optionalNumValidator(value)
               ),
-              FormQuestion("Sold Date (YYYY-MM-DD) (optional)", 
+              FormQuestion("Sold Date (YYYY-MM-DD) (optional)",
+                initSoldD, 
                 () => (value) => soldDate = DateTime.tryParse(value),
                   /*if (value == "") {
                     soldDate = null;
@@ -171,8 +212,16 @@ class _InvestFormState extends State<InvestForm> {
                   if (_formKey.currentState!.validate()) {
                     print("valid");
                     _formKey.currentState!.save();
-                    Stock newStock = Stock(symbol: symbol, name: name, bought_date: boughtDate, bought_price: boughtPrice, brokerage: brokerage, lots: lots, sold_price: soldPrice, sold_date: soldDate);
-                    MyFinDB.dbInstance.insertStock(newStock);
+
+                    if (map == null) {
+                      Stock newStock = Stock(symbol: symbol, name: name, bought_date: boughtDate, bought_price: boughtPrice, brokerage: brokerage, lots: lots, sold_price: soldPrice, sold_date: soldDate);
+                      MyFinDB.dbInstance.insertStock(newStock);
+                    } else {
+                      print("in else to update");
+                      print("soldp $soldPrice soldD $soldDate");
+                      s!.updateStock(name, symbol, boughtPrice , boughtDate, brokerage, lots, soldPrice, soldDate);
+                      MyFinDB.dbInstance.updateStock(s!);
+                    }
                     /*print(name);
                     print(symbol);
                     print(boughtPrice);

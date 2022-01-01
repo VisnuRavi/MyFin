@@ -2,8 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:myfin/models/stock.dart';
 import 'package:myfin/database/myfin_db.dart';
 
-class InvestDetails extends StatelessWidget {//stateless 1st then add the edit and delete function
+class InvestDetails extends StatefulWidget {  @override
+  State<InvestDetails> createState() => _InvestDetailsState();
+}
+
+class _InvestDetailsState extends State<InvestDetails> {
   Stock stock = Stock.zero();
+
+  void refreshStock() async {
+    Stock editedStock = await MyFinDB.dbInstance.readStock(stock.id!);
+    setState(() {
+      print('edit');
+      stock = editedStock;
+      print("editedStock sold: ${editedStock.sold_price}");
+      print("stock sold: ${stock.sold_price}");
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +63,10 @@ class InvestDetails extends StatelessWidget {//stateless 1st then add the edit a
                   children: <Widget> [
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          await Navigator.pushNamed(context, "/invest_form", arguments: {'stock':stock});
+                          refreshStock();
+                        },
                         child: Text("Edit"),
                       ),
                     ),
@@ -107,5 +124,4 @@ class InvestDetails extends StatelessWidget {//stateless 1st then add the edit a
       );
     }
   }
-
 }

@@ -5,11 +5,13 @@ class FormQuestion extends StatelessWidget {
   String label = "";
   Function saveFunction = () => print("uninitialised");
   Function validatorFn = () => print("uninitialised validator");
+  String? initVal;
   
-  FormQuestion(String label, Function saveFunction, Function validatorFn) {
+  FormQuestion(String label, String? initVal, Function saveFunction, Function validatorFn) {
     this.label = label;
     this.saveFunction = saveFunction;
     this.validatorFn = validatorFn;
+    this.initVal = initVal;
   }
 
   @override
@@ -17,7 +19,7 @@ class FormQuestion extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
       child: TextFormField(
-        initialValue: null,
+        initialValue: initVal,
         decoration: InputDecoration(
           labelText: label,
           border: UnderlineInputBorder(),
