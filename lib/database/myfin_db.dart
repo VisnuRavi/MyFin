@@ -93,7 +93,7 @@ class MyFinDB {
     return stocks; 
   }
   
-  Future<void> updateStock(Stock stock) async {
+  Future<void> updateStock(Stock stock) async {//works
     final db = await dbInstance.database;
     db.update(
       'stocks',

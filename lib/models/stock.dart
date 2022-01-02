@@ -10,7 +10,7 @@ class Stock {
   String brokerage = 'eg';
   int lots = 0;
   double? sold_price = 0.0;
-  DateTime? sold_date = DateTime.parse('2021-12-12');
+  DateTime? sold_date = DateTime.parse('2021-12-12');//can look to use DateFormat
 
   Stock({this.id, required this.name, required this.symbol, required this.bought_price,required this.bought_date, required this.brokerage, required this.lots, this.sold_price, this.sold_date});
 
@@ -57,7 +57,7 @@ class Stock {
   }
 
   Widget percentageChange(double price) {
-    double change = ((price - bought_price)/bought_price) * 100;
+    double change = double.parse((((price - bought_price)/bought_price) * 100).toStringAsFixed(2));
     if (change >= 0) {
       return Row(
         children: [
@@ -91,6 +91,17 @@ class Stock {
       );
     }
   } 
+
+  void updateStock(String editedName, String editedSymbol, double editedBought_price, DateTime editedBought_date, String editedBrokerage, int editedLots, double? editedSold_price, DateTime? editedSold_date) {
+    this.name = editedName;
+    this.symbol = editedSymbol;
+    this.bought_price = editedBought_price;
+    this.bought_date = editedBought_date;
+    this.brokerage = editedBrokerage;
+    this.lots = editedLots;
+    this.sold_price = editedSold_price;
+    this.sold_date = editedSold_date;
+  }
 
   @override
   String toString() {
