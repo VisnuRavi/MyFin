@@ -114,14 +114,17 @@ class _InvestState extends State<Invest> {
         itemBuilder: (context, index) {
           return Card(
             child: ListTile(
-              title: Text("${stocks[index].name} (${stocks[index].symbol})"),
+              title: Row(children: [Flexible(child: Text("${stocks[index].name} (${stocks[index].symbol})"))]),
               subtitle: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Bought: ${stocks[index].bought_price.toString()}"),
+                  Flexible(
+                    child: Text("Bought: ${stocks[index].bought_price.toString()}")
+                  ),
                   SizedBox(width: 10.0),
-                  displaySoldPrice(stocks[index]),
+                  Flexible(child: displaySoldPrice(stocks[index])),
                   SizedBox(width:20.0),
-                  displayPercentage(stocks[index]),
+                  Flexible(child: displayPercentage(stocks[index])),//this flex is overflowing
                 ],
               ),
               onTap: () async {

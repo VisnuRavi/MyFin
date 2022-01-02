@@ -47,6 +47,19 @@ class _InvestFormState extends State<InvestForm> {
     }
   }
 
+  Widget getTitle() {
+    String title = "New Investment";
+    if (s != null) {
+      title = "Edit Investment";
+    }
+    return Text(
+      title,
+      style: TextStyle(
+        fontSize: 25.0,
+      ),
+    );
+  }
+
   bool isNullOrEmpty(value) {
     if (value == null || value.isEmpty) {
       return true;
@@ -143,14 +156,9 @@ class _InvestFormState extends State<InvestForm> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              SizedBox(height: 10.0),
+              SizedBox(height: 15.0),
               Center(
-                child: Text(
-                  "New Investment",
-                  style: TextStyle(
-                    fontSize: 25.0,
-                  ),
-                ),
+                child: getTitle(),
               ),
               FormQuestion("Stock Name", 
                 initName,
@@ -237,7 +245,10 @@ class _InvestFormState extends State<InvestForm> {
                     print("invalid");
                   }
                 },
-                child: Text("Submit")
+                child: Text("Submit"),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
+                ),
               ),
             ],
           ),
