@@ -134,6 +134,7 @@ class _InvestFormState extends State<InvestForm> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Investments Form"),
+        backgroundColor: Colors.purple,
       ),
       body: 
       Form(

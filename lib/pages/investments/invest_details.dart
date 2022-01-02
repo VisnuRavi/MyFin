@@ -27,6 +27,7 @@ class _InvestDetailsState extends State<InvestDetails> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Details"),
+        backgroundColor: Colors.purple,
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(8.0, 10.0, 8.0, 10.0),
@@ -68,6 +69,9 @@ class _InvestDetailsState extends State<InvestDetails> {
                           refreshStock();
                         },
                         child: Text("Edit"),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
+                        ),
                       ),
                     ),
                     SizedBox(width:10.0),
@@ -78,6 +82,9 @@ class _InvestDetailsState extends State<InvestDetails> {
                           Navigator.pop(context);
                         },
                         child: Text("Delete"),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
+                        ),
                       ),
                     ),
                   ],

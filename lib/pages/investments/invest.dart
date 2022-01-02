@@ -70,8 +70,10 @@ class _InvestState extends State<Invest> {
           fontSize: 20.0,
           ),
         ),
+        backgroundColor: Colors.purple,
       ),
       body: bodyLayout(stocks),
+      //backgroundColor: Colors.purple[50],
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           print('clicked investform');
@@ -81,6 +83,7 @@ class _InvestState extends State<Invest> {
         child: Icon(
           Icons.add,
         ),
+        backgroundColor: Colors.purple,
       ),
     );
   }
@@ -127,7 +130,8 @@ class _InvestState extends State<Invest> {
                 });
                 refreshStocksList();
               },
-            )
+            ),
+            //color: Colors.purple[50],
           );
         }
       );
