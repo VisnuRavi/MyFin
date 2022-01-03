@@ -11,7 +11,12 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
+      body: Container(
+        /*decoration: BoxDecoration(
+          gradient: LinearGradient(
+
+          ),
+        ),*/
         padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
