@@ -21,8 +21,15 @@ class FormQuestion extends StatelessWidget {
       child: TextFormField(
         initialValue: initVal,
         decoration: InputDecoration(
+          //fillColor: Colors.purple,//change the highlight color
           labelText: label,
+          //labelStyle: TextStyle(color: Colors.purple),
           border: UnderlineInputBorder(),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+                color: Colors.purple,
+            ),
+          ),
         ),
         validator: validatorFn(),
         onSaved: saveFunction(),

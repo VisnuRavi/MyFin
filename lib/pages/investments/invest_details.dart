@@ -27,14 +27,21 @@ class _InvestDetailsState extends State<InvestDetails> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Details"),
+        backgroundColor: Colors.purple,
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(8.0, 10.0, 8.0, 10.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "${stock.name} (${stock.symbol})",
-              style: TextStyle(fontSize: 30.0),
+            Center(
+              child: Text(
+                "${stock.name} (${stock.symbol})",
+                style: TextStyle(fontSize: 30.0),
+              ),
+            ),
+            Divider(
+              height: 40.0, color: Colors.purple[200],
             ),
             SizedBox(height: 20.0),
             Row(
@@ -45,17 +52,13 @@ class _InvestDetailsState extends State<InvestDetails> {
               ],
             ),
             SizedBox(height:10.0),
-            displayPercentage(stock),
+            displayPercentage(stock),//still overflowing with flexible(flexible affects expanded button position though)
             SizedBox(height: 10.0,),
-            displaySold(stock),
-            SizedBox(height:10.0),
-            Row(
-              children: [
-                Text("Brokerage: ${stock.brokerage}"),
-                SizedBox(width: 10.0),
-                Text("Lots: ${stock.lots.toString()}")
-              ],
-            ),
+            displaySold(stock),//still overflowing with flexible
+            SizedBox(height:30.0),
+            Text("Brokerage: ${stock.brokerage}"),
+            SizedBox(height: 30.0),
+            Text("Lots: ${stock.lots.toString()}"),
             Expanded(//expands to take the rest of the area
               child: Align(
                 alignment: Alignment.bottomCenter,
@@ -68,6 +71,9 @@ class _InvestDetailsState extends State<InvestDetails> {
                           refreshStock();
                         },
                         child: Text("Edit"),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
+                        ),
                       ),
                     ),
                     SizedBox(width:10.0),
@@ -78,6 +84,9 @@ class _InvestDetailsState extends State<InvestDetails> {
                           Navigator.pop(context);
                         },
                         child: Text("Delete"),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
+                        ),
                       ),
                     ),
                   ],

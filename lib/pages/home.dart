@@ -11,20 +11,34 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [Colors.purple, Colors.white],
+            stops: [0.2, 0.8],
+          ),
+        ),
         padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget> [
             SafeArea(
-              child: Text(
-                'Net Worth',
-                style: TextStyle(
-                  fontSize: 30.0,
-                  fontWeight: FontWeight.bold,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 20.0, 0, 0),
+                child: Center(
+                  child: Text(
+                    'Net Worth',
+                    style: TextStyle(
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    ),
                 ),
-                ),
+              ),
             ),
+            Divider(height: 40, color: Colors.black),
             SizedBox(height: 30.0),
             Text(
               'Investments',
@@ -32,22 +46,20 @@ class _HomeState extends State<Home> {
                 fontSize: 20.0,
               ),
             ),
-            SizedBox(height: 200.0),
-            Row(
-              children: <Widget>[
-                OutlinedButton(
-                  onPressed: () {
-                    print('clicked invest');
-                    Navigator.pushNamed(context, '/invest');
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical:20.0, horizontal:0.0),
-                    child: Text(
-                      'Invest',
-                    ),
+            SizedBox(height: 250.0),
+            Center(//wrapped with center for the time being, shld wrap with row
+              child: OutlinedButton(
+                onPressed: () {
+                  print('clicked invest');
+                  Navigator.pushNamed(context, '/invest');
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical:20.0, horizontal:0.0),
+                  child: Text(
+                    'Invest',
                   ),
                 ),
-              ],
+              ),
             ),
           ],
         ),

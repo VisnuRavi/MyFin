@@ -37,14 +37,27 @@ class _InvestFormState extends State<InvestForm> {
       initName = s!.name;
       initSym = s!.symbol;
       initBoughtP = s!.bought_price.toString();
-      initBoughtD = s!.bought_date.toIso8601String();
+      initBoughtD = s!.bought_date.toIso8601String().substring(0,10);
       initBrokerage = s!.brokerage;
       initLots = s!.lots.toString();
       if (s!.sold_price != null) {
         initSoldP = s!.sold_price!.toString();
-        initSoldD = s!.sold_date!.toIso8601String();
+        initSoldD = s!.sold_date!.toIso8601String().substring(0,10);
       }
     }
+  }
+
+  Widget getTitle() {
+    String title = "New Investment";
+    if (s != null) {
+      title = "Edit Investment";
+    }
+    return Text(
+      title,
+      style: TextStyle(
+        fontSize: 25.0,
+      ),
+    );
   }
 
   bool isNullOrEmpty(value) {
@@ -75,6 +88,8 @@ class _InvestFormState extends State<InvestForm> {
     dynamic number = num.tryParse(value);
     if (number == null) {
       return 'Enter a value';
+    } else if (number >= 1000000) {
+      return 'Enter a value less than 1000000';
     }
     return null;
   }
@@ -134,6 +149,7 @@ class _InvestFormState extends State<InvestForm> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Investments Form"),
+        backgroundColor: Colors.purple,
       ),
       body: 
       Form(
@@ -142,14 +158,9 @@ class _InvestFormState extends State<InvestForm> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              SizedBox(height: 10.0),
+              SizedBox(height: 15.0),
               Center(
-                child: Text(
-                  "New Investment",
-                  style: TextStyle(
-                    fontSize: 25.0,
-                  ),
-                ),
+                child: getTitle(),
               ),
               FormQuestion("Stock Name", 
                 initName,
@@ -166,7 +177,7 @@ class _InvestFormState extends State<InvestForm> {
               ),
               FormQuestion("Bought Price",
                 initBoughtP,
-                () => (value) => boughtPrice = double.parse(value),
+                () => (value) => boughtPrice = double.parse(double.parse(value).toStringAsFixed(2)),
                 () => (value) => numValidator(value)
               ),
               FormQuestion("Bought Date (YYYY-MM-DD)",
@@ -186,7 +197,12 @@ class _InvestFormState extends State<InvestForm> {
               ),
               FormQuestion("Sold Price (optional)", 
                 initSoldP,
-                () => (value) => soldPrice = double.tryParse(value),
+                () => (value) {
+                   soldPrice = double.tryParse(value);
+                   if (soldPrice != null) {
+                     soldPrice = double.parse(soldPrice!.toStringAsFixed(2));
+                   }
+                },
                   /*if (value == "") {
                     soldPrice = null;
                   } else {
@@ -236,7 +252,10 @@ class _InvestFormState extends State<InvestForm> {
                     print("invalid");
                   }
                 },
-                child: Text("Submit")
+                child: Text("Submit"),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
+                ),
               ),
             ],
           ),
