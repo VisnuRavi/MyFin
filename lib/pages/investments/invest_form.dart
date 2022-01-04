@@ -117,8 +117,8 @@ class _InvestFormState extends State<InvestForm> {
       return 'Required';
     }
     DateTime? datetime = DateTime.tryParse(value);
-    if (datetime == null) {
-      return "Enter date in the correct format";
+    if (datetime == null || datetime.isAfter(DateTime.now())) {
+      return "Enter a valid date in the correct format";
     }
     return null;
   }
@@ -126,8 +126,8 @@ class _InvestFormState extends State<InvestForm> {
   String? optionalDateValidator(value) {//need to validate that this date is after the bought date
     if (!isNullOrEmpty(value)) {
       DateTime? datetime = DateTime.tryParse(value);
-      if (datetime == null) {
-        return "Enter date in the correct format";
+      if (datetime == null || datetime.isAfter(DateTime.now())) {
+        return "Enter a valid date in the correct format";
       }
       return null;
     }
