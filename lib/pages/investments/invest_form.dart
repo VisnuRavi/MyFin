@@ -141,7 +141,7 @@ class _InvestFormState extends State<InvestForm> {
     dynamic map = ModalRoute.of(context)!.settings.arguments;
     if (map != null) {
       map = map as Map<String, Stock>;
-      print("map not null");
+      //print("map not null");
       s = map['stock']!;
       updateInit();
     }
@@ -224,32 +224,32 @@ class _InvestFormState extends State<InvestForm> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  print('clicked');
+                  //print('clicked');
                   if (_formKey.currentState!.validate()) {
-                    print("valid");
+                    //print("valid");
                     _formKey.currentState!.save();
 
                     if (map == null) {
                       Stock newStock = Stock(symbol: symbol, name: name, bought_date: boughtDate, bought_price: boughtPrice, brokerage: brokerage, lots: lots, sold_price: soldPrice, sold_date: soldDate);
                       MyFinDB.dbInstance.insertStock(newStock);
                     } else {
-                      print("in else to update");
-                      print("soldp $soldPrice soldD $soldDate");
+                      //print("in else to update");
+                      //print("soldp $soldPrice soldD $soldDate");
                       s!.updateStock(name, symbol, boughtPrice , boughtDate, brokerage, lots, soldPrice, soldDate);
                       MyFinDB.dbInstance.updateStock(s!);
                     }
-                    /*print(name);
-                    print(symbol);
-                    print(boughtPrice);
-                    print(boughtDate);
-                    print(brokerage);
-                    print(soldPrice);
-                    print(soldDate);*/
+                    /*//print(name);
+                    //print(symbol);
+                    //print(boughtPrice);
+                    //print(boughtDate);
+                    //print(brokerage);
+                    //print(soldPrice);
+                    //print(soldDate);*/
                     /*Stock stock = Stock(name: name, symbol: symbol, bought_price: boughtPrice, bought_date: boughtDate, brokerage: brokerage, sold_price: soldPrice, sold_date: soldDate);
                     MyFinDB.dbInstance.insertStock(stock);*/
                     Navigator.pop(context);
                   } else {
-                    print("invalid");
+                    //print("invalid");
                   }
                 },
                 child: Text("Submit"),

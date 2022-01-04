@@ -12,30 +12,30 @@ class MyFinDB {
   static Database? _database;
 
   MyFinDB._createInstance() {
-    print("create instance");//works
+    //print("create instance");//works
   } //private constructor
 
   Future<Database> get database async {//gets the db async from other calls
-    print("get");//works
+    //print("get");//works
     if (_database == null) {
-        print("b4 init");
+        //print("b4 init");
         _database = await _initDB('myfin.db');
-        print("after init");
+        //print("after init");
     }
-    print("db not null");//comes here so is not null
-    print(await getDatabasesPath());
+    //print("db not null");//comes here so is not null
+    //print(await getDatabasesPath());
     return _database!;//! is an assert
   }
 
   Future<Database> _initDB(String filename) async {//not exiting after this using emulator
     final dbPath = await getDatabasesPath();// /data/user/0/com.example.myfin/databases
     final path = join(dbPath, filename);
-    print("in init, path: " + path);
+    //print("in init, path: " + path);
     return await openDatabase(path, version: 1, onCreate: _createDB);//increase version number when want to do onUpgrade
   }
 
   Future<void>_createDB(Database db, int version) async { //passing in a function when onCreate
-    print("in db creation");
+    //print("in db creation");
     //await db.execute("DROP TABLE IF EXISTS stocks");
     await db.execute(
       '''CREATE TABLE IF NOT EXISTS stocks(
@@ -50,14 +50,14 @@ class MyFinDB {
         sold_date DOUBLE
       )'''
     );
-    print("successful create db");
+    //print("successful create db");
   }
 
   Future<int> insertStock(Stock stock) async {
     final db = await dbInstance.database;
     final id = await db.insert('stocks', stock.toMap());
     stock.setId(id);
-    print("inserted stock");
+    //print("inserted stock");
     return id;
   }
 
@@ -68,7 +68,7 @@ class MyFinDB {
       where: 'id = ?',
       whereArgs: [id],
       );
-    Stock stock = Stock.fromDB(maps[0]); //shld not be empty, can add a check and throw exception if empty later
+    Stock stock = Stock.fromDB(maps[0]); //shld not be empty, can add a check and throw exception if empty later. will be empty if invalid id
     return stock;
   }
 
@@ -79,17 +79,17 @@ class MyFinDB {
       where: 'id = ?',
       whereArgs: [id],
       );
-    print(maps.length);
+    //print(maps.length);
     return maps[0];
   }
 
   Future<List<Stock>> readAllStocks() async {
-    print("read all stocks");
+    //print("read all stocks");
     final db = await dbInstance.database;
     final List<Map<String, dynamic>> maps = await db.query('stocks');
-    print("length maps ${maps.length}");
+    //print("length maps ${maps.length}");
     List<Stock> stocks = maps.map((map) => Stock.fromDB(map)).toList();
-    print("end read all stocks");
+    //print("end read all stocks");
     return stocks; 
   }
   
@@ -119,6 +119,20 @@ class MyFinDB {
       where: "id = ?",
       whereArgs: [id],
     );
+  }
+
+  Future<double?> getTotalInvestments() async {
+    final db = await dbInstance.database;
+    List<Map<String, Object?>> map = await db.rawQuery('''
+      SELECT SUM(bought_price * lots)
+      FROM stocks
+      WHERE sold_price IS NULL;
+    ''');
+    Object? totalInvestments = map[0]["SUM(bought_price * lots)"];//the return value has the key as the columns
+    if (totalInvestments == null) {
+      return null;
+    } 
+    return totalInvestments! as double;
   }
 
   Future<void> close() async {

@@ -36,13 +36,13 @@ class _InvestState extends State<Invest> {
       await MyFinDB.dbInstance.insertStock(stocks1[i]); //need to wait for each to be added 1st
     }
     //int id = await MyFinDB.dbInstance.insertStock(s);
-    //print("id $id");
-    print("s~~~~~~");
-    print(s);
+    ////print("id $id");
+    //print("s~~~~~~");
+    //print(s);
     Map<String, dynamic> map = await MyFinDB.dbInstance.readStockMap(1);
-    print("${map['id']}:${map['id'].runtimeType} ${map['name']}:${map['name'].runtimeType} ${map['brokerage']}:${map['brokerage'].runtimeType} ${map['bought_price']}:${map['bought_price'].runtimeType} ${map['bought_date']}.${map['bought_date'].runtimeType} ${map['brokerage']}:${map['brokerage'].runtimeType} ${map['lots']}:${map['lots'].runtimeType} ${map['sold_price']}:${map['sold_price'].runtimeType} ${map['sold_date']}:${map['sold_date'].runtimeType}");*/
+    //print("${map['id']}:${map['id'].runtimeType} ${map['name']}:${map['name'].runtimeType} ${map['brokerage']}:${map['brokerage'].runtimeType} ${map['bought_price']}:${map['bought_price'].runtimeType} ${map['bought_date']}.${map['bought_date'].runtimeType} ${map['brokerage']}:${map['brokerage'].runtimeType} ${map['lots']}:${map['lots'].runtimeType} ${map['sold_price']}:${map['sold_price'].runtimeType} ${map['sold_date']}:${map['sold_date'].runtimeType}");*/
     //Stock s1 = await MyFinDB.dbInstance.readStock(1);
-    //print("s1 $s1");
+    ////print("s1 $s1");
     //MyFinDB.dbInstance.deleteStockById(1);
     //int id = await MyFinDB.dbInstance.insertStock(s);//init state only gets called when the page is 1st loaded and thats it
     stocks = await MyFinDB.dbInstance.readAllStocks();
@@ -51,12 +51,12 @@ class _InvestState extends State<Invest> {
     }*/
 
     /*for (int i=0; i<stocks.length; i++) {
-      print(stocks[i]);
+      //print(stocks[i]);
     }*/
     setState(() {
       //stocks = await MyFinDB.dbInstance.readAllStocks(); //dont do async within setstate
       isLoading = false;
-      print("setting state");
+      //print("setting state");
       });
   }
 
@@ -76,7 +76,7 @@ class _InvestState extends State<Invest> {
       //backgroundColor: Colors.purple[50],
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          print('clicked investform');
+          //print('clicked investform');
           await Navigator.pushNamed(context, '/invest_form');
           refreshStocksList();//has setState in it
         },
@@ -119,7 +119,7 @@ class _InvestState extends State<Invest> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
-                    child: Text("Bought: ${stocks[index].bought_price.toString()}")
+                    child: Text("Bought: ${stocks[index].bought_price.toStringAsFixed(2)}")
                   ),
                   SizedBox(width: 10.0),
                   Flexible(child: displaySoldPrice(stocks[index])),
@@ -145,7 +145,7 @@ class _InvestState extends State<Invest> {
     if (s.sold_price == null) {
       return Text("Sold: -");
     } else {
-      return Text("Sold: ${s.sold_price.toString()}");
+      return Text("Sold: ${s.sold_price!.toStringAsFixed(2)}");
     }
   }
 

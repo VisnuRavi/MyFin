@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
+import 'package:myfin/database/myfin_db.dart';
 
 class Home extends StatefulWidget {
 
@@ -8,6 +9,41 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  bool isLoading = true;
+  String totalInvestments = "None";
+
+  getTotalInvestments() async {
+    double? investmentValue =  await MyFinDB.dbInstance.getTotalInvestments();
+    if (investmentValue != null) {
+      totalInvestments = investmentValue.toStringAsFixed(2);
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  //method
+  Widget displayInvestments() {
+    String display = "";
+    if (isLoading) {
+      display = "Loading..";
+    } else {
+      display = "\$$totalInvestments";
+    }
+
+    return Text(
+      display,
+      style: TextStyle(fontSize: 20.0),
+    );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getTotalInvestments();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,18 +76,25 @@ class _HomeState extends State<Home> {
             ),
             Divider(height: 40, color: Colors.black),
             SizedBox(height: 30.0),
-            Text(
-              'Investments',
-              style: TextStyle(
-                fontSize: 20.0,
-              ),
+            Row(
+              children: [
+                Text(
+                  'Investments:',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                  ),
+                ),
+                SizedBox(width:10.0),
+                displayInvestments(),
+              ],
             ),
             SizedBox(height: 250.0),
             Center(//wrapped with center for the time being, shld wrap with row
               child: OutlinedButton(
-                onPressed: () {
-                  print('clicked invest');
-                  Navigator.pushNamed(context, '/invest');
+                onPressed: () async {
+                  //print('clicked invest');
+                  await Navigator.pushNamed(context, '/invest');
+                  getTotalInvestments();
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical:20.0, horizontal:0.0),

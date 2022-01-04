@@ -12,10 +12,10 @@ class _InvestDetailsState extends State<InvestDetails> {
   void refreshStock() async {
     Stock editedStock = await MyFinDB.dbInstance.readStock(stock.id!);
     setState(() {
-      print('edit');
+      //print('edit');
       stock = editedStock;
-      print("editedStock sold: ${editedStock.sold_price}");
-      print("stock sold: ${stock.sold_price}");
+      //print("editedStock sold: ${editedStock.sold_price}");
+      //print("stock sold: ${stock.sold_price}");
     });
   }
 
@@ -48,7 +48,7 @@ class _InvestDetailsState extends State<InvestDetails> {
               children: [
                 Text("Bought Date: ${stock.bought_date.day.toString()}/${stock.bought_date.month.toString()}/${stock.bought_date.year.toString()}"),
                 SizedBox(width:20.0),
-                Text("Bought: ${stock.bought_price.toString()}"),
+                Text("Bought: ${stock.bought_price.toStringAsFixed(2)}"),
               ],
             ),
             SizedBox(height:10.0),
@@ -114,7 +114,7 @@ class _InvestDetailsState extends State<InvestDetails> {
         children: [
           Text("Sold Date: ${stock.sold_date!.day.toString()}/${stock.sold_date!.month.toString()}/${stock.sold_date!.year.toString()}"),
           SizedBox(width:38.0),
-          Text("Sold: ${stock.sold_price.toString()}"),
+          Text("Sold: ${stock.sold_price!.toStringAsFixed(2)}"),
         ],
       );
     }
