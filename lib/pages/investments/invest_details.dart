@@ -54,7 +54,7 @@ class _InvestDetailsState extends State<InvestDetails> {
             SizedBox(height:10.0),
             displayPercentage(stock),//still overflowing with flexible(flexible affects expanded button position though)
             SizedBox(height: 10.0,),
-            displaySold(stock),//still overflowing with flexible
+            displaySoldOrCurrent(stock),//still overflowing with flexible
             SizedBox(height:30.0),
             Text("Brokerage: ${stock.brokerage}"),
             SizedBox(height: 30.0),
@@ -100,13 +100,22 @@ class _InvestDetailsState extends State<InvestDetails> {
     );
   }
 
-    Widget displaySold(Stock s) {
-    if (s.sold_price == null) {
+    //will need to edit these 2 fn below
+    Widget displaySoldOrCurrent(Stock s) {
+    if (s.sold_price == null && s.currPrice == null) {
+      return Row(
+        children: [
+          Text("Sold Date: -"),
+          SizedBox(width:102.0),
+          Text("Sold: -"),
+        ],
+      );
+    } else if (s.currPrice != null) {
       return Row(
         children: [
           Text("Sold Date: -"),
           SizedBox(width:118.0),
-          Text("Sold: -"),
+          Text("Open: ${stock.currPrice!.toStringAsFixed(2)}"),
         ],
       );
     } else {
@@ -121,15 +130,15 @@ class _InvestDetailsState extends State<InvestDetails> {
   }
 
   Widget displayPercentage(Stock s) {
-    if (s.sold_price == null) {
+    if (s.sold_price == null && s.currPrice == null) {
       return Padding(
-        padding: const EdgeInsets.fromLTRB(50.0, 0, 0, 0),//why so diff from below??
+        padding: const EdgeInsets.fromLTRB(181.0, 0, 0, 0),//why so diff from below??
         child: Text("-"),
       );
     } else {
       return Padding(
         padding: const EdgeInsets.fromLTRB(188.0, 0, 0, 0),
-        child: s.percentageChange(s.sold_price!),
+        child: s.percentageChange(),
       );
     }
   }

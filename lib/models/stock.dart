@@ -1,5 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'dart:convert';
+import 'dart:async';  
 
 class Stock {
   int? id;
@@ -11,6 +13,9 @@ class Stock {
   int lots = 0;
   double? sold_price = 0.0;
   DateTime? sold_date = DateTime.parse('2021-12-12');//can look to use DateFormat
+
+  bool isLoadingCurrPrice = true;
+  double? currPrice;
 
   Stock({this.id, required this.name, required this.symbol, required this.bought_price,required this.bought_date, required this.brokerage, required this.lots, this.sold_price, this.sold_date});
 
@@ -56,8 +61,19 @@ class Stock {
     this.id = id;
   }
 
-  Widget percentageChange(double price) {
-    double change = double.parse((((price - bought_price)/bought_price) * 100).toStringAsFixed(2));
+  Widget percentageChange() {
+    double? priceToUse;
+    if (sold_price != null) {
+      priceToUse = sold_price;
+    } else if (currPrice != null) {
+      priceToUse = currPrice;
+    }
+
+    if (priceToUse == null) {
+      return Text("-");
+    }
+
+    double change = double.parse((((priceToUse - bought_price)/bought_price) * 100).toStringAsFixed(2));
     if (change >= 0) {
       return Row(
         children: [
@@ -101,6 +117,29 @@ class Stock {
     this.lots = editedLots;
     this.sold_price = editedSold_price;
     this.sold_date = editedSold_date;
+  }
+
+  Future<void> getCurrPrice() async {//shld only be called if sold_price=null
+    try {
+      String apiKey = 'NNYYWKK428VQMEXM';
+      String url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=$symbol&apikey=$apiKey";
+
+      Response response = await get(Uri.parse(url));//need on wifi
+      //print(response.body);
+      Map globalQuoteMap = json.decode(response.body);
+      if (globalQuoteMap['Global Quote'] != null) {
+        print("~~~~~~~$globalQuoteMap");
+        String? openPrice = globalQuoteMap['Global Quote']!['02. open'];
+        print("~~~~~~~~$openPrice");
+        if (openPrice != null) {
+          currPrice = double.parse(openPrice);
+        } else {
+          currPrice = null;
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override

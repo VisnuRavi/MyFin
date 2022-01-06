@@ -79,7 +79,7 @@ class _HomeState extends State<Home> {
             Row(
               children: [
                 Text(
-                  'Investments:',
+                  'Invested:',
                   style: TextStyle(
                     fontSize: 20.0,
                   ),
