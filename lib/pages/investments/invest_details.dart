@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myfin/models/stock.dart';
 import 'package:myfin/database/myfin_db.dart';
+import 'package:intl/intl.dart';
 
 class InvestDetails extends StatefulWidget {  @override
   State<InvestDetails> createState() => _InvestDetailsState();
@@ -8,14 +9,15 @@ class InvestDetails extends StatefulWidget {  @override
 
 class _InvestDetailsState extends State<InvestDetails> {
   Stock stock = Stock.zero();
+  final dateFormat = DateFormat("dd/MM/yyyy");
 
   void refreshStock() async {
     Stock editedStock = await MyFinDB.dbInstance.readStock(stock.id!);
     setState(() {
-      print('edit');
+      //print('edit');
       stock = editedStock;
-      print("editedStock sold: ${editedStock.sold_price}");
-      print("stock sold: ${stock.sold_price}");
+      //print("editedStock sold: ${editedStock.sold_price}");
+      //print("stock sold: ${stock.sold_price}");
     });
   }
 
@@ -46,15 +48,15 @@ class _InvestDetailsState extends State<InvestDetails> {
             SizedBox(height: 20.0),
             Row(
               children: [
-                Text("Bought Date: ${stock.bought_date.day.toString()}/${stock.bought_date.month.toString()}/${stock.bought_date.year.toString()}"),
+                Text("Bought Date: ${dateFormat.format(stock.bought_date)}"),
                 SizedBox(width:20.0),
-                Text("Bought: ${stock.bought_price.toString()}"),
+                Text("Bought: ${stock.bought_price.toStringAsFixed(2)}"),
               ],
             ),
             SizedBox(height:10.0),
             displayPercentage(stock),//still overflowing with flexible(flexible affects expanded button position though)
             SizedBox(height: 10.0,),
-            displaySold(stock),//still overflowing with flexible
+            displaySoldOrCurrent(stock),//still overflowing with flexible
             SizedBox(height:30.0),
             Text("Brokerage: ${stock.brokerage}"),
             SizedBox(height: 30.0),
@@ -100,36 +102,45 @@ class _InvestDetailsState extends State<InvestDetails> {
     );
   }
 
-    Widget displaySold(Stock s) {
-    if (s.sold_price == null) {
+    //will need to edit these 2 fn below
+    Widget displaySoldOrCurrent(Stock s) {
+    if (s.sold_price == null && s.currPrice == null) {
+      return Row(
+        children: [
+          Text("Sold Date: -"),
+          SizedBox(width:117.0),
+          Text("Sold: -"),
+        ],
+      );
+    } else if (s.currPrice != null) {
       return Row(
         children: [
           Text("Sold Date: -"),
           SizedBox(width:118.0),
-          Text("Sold: -"),
+          Text("Open: ${stock.currPrice!.toStringAsFixed(2)}"),
         ],
       );
     } else {
       return Row(
         children: [
-          Text("Sold Date: ${stock.sold_date!.day.toString()}/${stock.sold_date!.month.toString()}/${stock.sold_date!.year.toString()}"),
+          Text("Sold Date: ${dateFormat.format(stock.sold_date!)}"),
           SizedBox(width:38.0),
-          Text("Sold: ${stock.sold_price.toString()}"),
+          Text("Sold: ${stock.sold_price!.toStringAsFixed(2)}"),
         ],
       );
     }
   }
 
   Widget displayPercentage(Stock s) {
-    if (s.sold_price == null) {
+    if (s.sold_price == null && s.currPrice == null) {
       return Padding(
-        padding: const EdgeInsets.fromLTRB(50.0, 0, 0, 0),//why so diff from below??
+        padding: const EdgeInsets.fromLTRB(197.0, 0, 0, 0),//why so diff from below??
         child: Text("-"),
       );
     } else {
       return Padding(
-        padding: const EdgeInsets.fromLTRB(188.0, 0, 0, 0),
-        child: s.percentageChange(s.sold_price!),
+        padding: const EdgeInsets.fromLTRB(189.0, 0, 0, 0),
+        child: s.percentageChange(),
       );
     }
   }
