@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myfin/models/stock.dart';
 import 'package:myfin/database/myfin_db.dart';
+import 'package:intl/intl.dart';
 
 class InvestDetails extends StatefulWidget {  @override
   State<InvestDetails> createState() => _InvestDetailsState();
@@ -8,6 +9,7 @@ class InvestDetails extends StatefulWidget {  @override
 
 class _InvestDetailsState extends State<InvestDetails> {
   Stock stock = Stock.zero();
+  final dateFormat = DateFormat("dd/MM/yyyy");
 
   void refreshStock() async {
     Stock editedStock = await MyFinDB.dbInstance.readStock(stock.id!);
@@ -46,7 +48,7 @@ class _InvestDetailsState extends State<InvestDetails> {
             SizedBox(height: 20.0),
             Row(
               children: [
-                Text("Bought Date: ${stock.bought_date.day.toString()}/${stock.bought_date.month.toString()}/${stock.bought_date.year.toString()}"),
+                Text("Bought Date: ${dateFormat.format(stock.bought_date)}"),
                 SizedBox(width:20.0),
                 Text("Bought: ${stock.bought_price.toStringAsFixed(2)}"),
               ],
@@ -106,7 +108,7 @@ class _InvestDetailsState extends State<InvestDetails> {
       return Row(
         children: [
           Text("Sold Date: -"),
-          SizedBox(width:102.0),
+          SizedBox(width:117.0),
           Text("Sold: -"),
         ],
       );
@@ -121,7 +123,7 @@ class _InvestDetailsState extends State<InvestDetails> {
     } else {
       return Row(
         children: [
-          Text("Sold Date: ${stock.sold_date!.day.toString()}/${stock.sold_date!.month.toString()}/${stock.sold_date!.year.toString()}"),
+          Text("Sold Date: ${dateFormat.format(stock.sold_date!)}"),
           SizedBox(width:38.0),
           Text("Sold: ${stock.sold_price!.toStringAsFixed(2)}"),
         ],
@@ -132,12 +134,12 @@ class _InvestDetailsState extends State<InvestDetails> {
   Widget displayPercentage(Stock s) {
     if (s.sold_price == null && s.currPrice == null) {
       return Padding(
-        padding: const EdgeInsets.fromLTRB(181.0, 0, 0, 0),//why so diff from below??
+        padding: const EdgeInsets.fromLTRB(197.0, 0, 0, 0),//why so diff from below??
         child: Text("-"),
       );
     } else {
       return Padding(
-        padding: const EdgeInsets.fromLTRB(188.0, 0, 0, 0),
+        padding: const EdgeInsets.fromLTRB(189.0, 0, 0, 0),
         child: s.percentageChange(),
       );
     }

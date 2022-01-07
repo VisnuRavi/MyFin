@@ -88,7 +88,12 @@ class MyFinDB {
     final db = await dbInstance.database;
     final List<Map<String, dynamic>> maps = await db.query('stocks');
     //print("length maps ${maps.length}");
-    List<Stock> stocks = maps.map((map) => Stock.fromDB(map)).toList();
+    List<Stock> stocks = maps.map((map) => Stock.fromDB(map)).toList();//here
+    for (Stock stock in stocks) {
+      if (stock.sold_price == null) {
+        await stock.getCurrPrice();
+      }
+    }
     //print("end read all stocks");
     return stocks; 
   }

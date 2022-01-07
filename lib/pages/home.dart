@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
     if (isLoading) {
       display = "Loading..";
     } else {
-      display = "\$$totalInvestments";
+      display = "$totalInvestments";
     }
 
     return Text(

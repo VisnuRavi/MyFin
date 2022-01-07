@@ -14,7 +14,7 @@ class Stock {
   double? sold_price = 0.0;
   DateTime? sold_date = DateTime.parse('2021-12-12');//can look to use DateFormat
 
-  bool isLoadingCurrPrice = true;
+  //bool isLoadingCurrPrice = true;//initially used in invest.dart to get the curr price when building the ListTile
   double? currPrice;
 
   Stock({this.id, required this.name, required this.symbol, required this.bought_price,required this.bought_date, required this.brokerage, required this.lots, this.sold_price, this.sold_date});
@@ -39,12 +39,14 @@ class Stock {
     };
   } 
 
-  static Stock fromDB(Map<String, dynamic> map) { //i think cant use named constructor coz possible to put in null to the non nullables. just use method and put inside
+  static Stock fromDB(Map<String, dynamic> map) { 
+    //i think cant use named constructor coz possible to put in null to the non nullables. just use method and put inside
+    //use async to get the currprice
     DateTime? mapSoldDate = null;
     if (map['sold_date'] != null) {
       mapSoldDate = DateTime.parse(map['sold_date'] as String);
     }
-    return Stock(
+    Stock currentStock = Stock(
       id: map['id'] as int,
       name: map['name'] as String,
       symbol: map['symbol'] as String,
@@ -55,6 +57,11 @@ class Stock {
       sold_price: map['sold_price'] as double?,
       sold_date: mapSoldDate,//must always handle the null values!!
     );
+    /*if (currentStock.sold_price == null) {
+      await currentStock.getCurrPrice();
+    }*/
+
+    return currentStock;
   }
 
   void setId(int id) {
@@ -121,11 +128,12 @@ class Stock {
 
   Future<void> getCurrPrice() async {//shld only be called if sold_price=null
     try {
+      print("!!!!!!!getcurr");
       String apiKey = 'NNYYWKK428VQMEXM';
       String url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=$symbol&apikey=$apiKey";
 
       Response response = await get(Uri.parse(url));//need on wifi
-      //print(response.body);
+      print(response.body);
       Map globalQuoteMap = json.decode(response.body);
       if (globalQuoteMap['Global Quote'] != null) {
         print("~~~~~~~$globalQuoteMap");

@@ -98,27 +98,24 @@ class _InvestState extends State<Invest> {
 
   //try getting the curr price each time app open 1st, then work on getting it to build the widget each time. i think can set the isloadingcurrprice to false after setstate?
 
-  void getStockCurrentPrice(Stock s) async {
+  /*void getStockCurrentPrice(Stock s) async {
     if (s.sold_price == null) {
+      print("~~~~~~");
       await s.getCurrPrice();
       setState(() {
         s.isLoadingCurrPrice = false;
       });
     }
-  }
+  }*/
 
   Widget displaySoldOrCurrentPrice(Stock s) {
-    getStockCurrentPrice(s);
+    //getStockCurrentPrice(s);//gets called repeatedly, coz for some reason scaffold keeps rebuilding the widget. can look to make it part of refreshstockslist
 
     if (s.sold_price == null) {
-      if (s.isLoadingCurrPrice) {
-        return Text('Loading..');
+      if (s.currPrice == null) {
+        return Text("Open: -");
       } else {
-        if (s.currPrice == null) {
-          return Text("Open: -");
-        } else {
-          return Text("Open: ${s.currPrice!.toStringAsFixed(2)}");
-        }
+        return Text("Open: ${s.currPrice!.toStringAsFixed(2)}");
       }
     } else {
       return Text("Sold: ${s.sold_price!.toStringAsFixed(2)}");
