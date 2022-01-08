@@ -16,6 +16,7 @@ class _HomeState extends State<Home> {
     double? investmentValue =  await MyFinDB.dbInstance.getTotalInvestments();
     if (investmentValue != null) {
       totalInvestments = investmentValue.toStringAsFixed(2);
+      totalInvestments = '\$' + totalInvestments;
     }
     setState(() {
       isLoading = false;
