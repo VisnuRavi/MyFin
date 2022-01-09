@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:myfin/models/stock.dart';
-import 'package:myfin/database/myfin_db.dart';
+import 'package:myfin/database/stock_db.dart';
 
 class Invest extends StatefulWidget {
   @override
@@ -29,13 +29,15 @@ class _InvestState extends State<Invest> {
 
   void initState() { //init state only gets called when the page is 1st loaded and thats it
     super.initState();
-    refreshStocksList(); //does this async without waiting
+    if (this.mounted) {//supposed to prevent setstate() being called after disposed, but can still happen(case:from home click invest, then click back immediately)?
+      refreshStocksList(); //does this async without waiting
+    }
   }
 
   void refreshStocksList() async {//create the async function by itself to only change the external state of the data you want to store, and the bool variable attached. then use this function inside another function
     //MyFinDB.dbInstance.deleteStockById(1);
     //int id = await MyFinDB.dbInstance.insertStock(s);//init state only gets called when the page is 1st loaded and thats it
-    stocks = await MyFinDB.dbInstance.readAllStocks();
+    stocks = await StockDB.stockFns.readAllStocks();
 
     setState(() {
       //stocks = await MyFinDB.dbInstance.readAllStocks(); //dont do async within setstate

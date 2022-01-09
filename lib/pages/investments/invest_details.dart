@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myfin/models/stock.dart';
-import 'package:myfin/database/myfin_db.dart';
+import 'package:myfin/database/stock_db.dart';
 import 'package:intl/intl.dart';
 
 class InvestDetails extends StatefulWidget {  @override
@@ -12,7 +12,7 @@ class _InvestDetailsState extends State<InvestDetails> {
   final dateFormat = DateFormat("dd/MM/yyyy");
 
   void refreshStock() async {
-    Stock editedStock = await MyFinDB.dbInstance.readStock(stock.id!);
+    Stock editedStock = await StockDB.stockFns.readStock(stock.id!);
     setState(() {
       //print('edit');
       stock = editedStock;
@@ -82,7 +82,7 @@ class _InvestDetailsState extends State<InvestDetails> {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
-                          MyFinDB.dbInstance.deleteStock(stock);
+                          StockDB.stockFns.deleteStock(stock);
                           Navigator.pop(context);
                         },
                         child: Text("Delete"),
