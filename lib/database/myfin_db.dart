@@ -31,7 +31,7 @@ class MyFinDB {
     final dbPath = await getDatabasesPath();// /data/user/0/com.example.myfin/databases
     final path = join(dbPath, filename);
     //print("in init, path: " + path);
-    return await openDatabase(path, version: 1, onCreate: _createDB);//increase version number when want to do onUpgrade
+    return await openDatabase(path, version: 2, onCreate: _createDB, onUpgrade: _upgradeDB);//increase version number when want to do onUpgrade
   }
 
   Future<void>_createDB(Database db, int version) async { //passing in a function when onCreate
@@ -51,6 +51,19 @@ class MyFinDB {
       )'''
     );
     //print("successful create db");
+  }
+
+  Future<void> _upgradeDB(Database db, int oldVersion, int newVersion) async {
+    if (newVersion > oldVersion) {
+      await db.execute(
+        '''
+        ALTER TABLE stocks
+        ADD is_US BOOLEAN NOT NULL DEFAULT 1
+        '''
+      );
+      //ALTER TABLE stocks //just cant seem to change this for some reason
+      //  RENAME COLUMN lots TO shares
+    }
   }
 
   /*Future<int> insertStock(Stock stock) async {

@@ -10,15 +10,15 @@ class Invest extends StatefulWidget {
 
 class _InvestState extends State<Invest> {
   List<Stock> stocks1 = [
-    Stock(name: 'nam1', symbol: 'sym', bought_price: 2.0, bought_date: DateTime(2021, 12, 23), brokerage: 'brok', shares: 1000, sold_price: 3.0, sold_date: DateTime(2021, 12, 27)),
-    Stock(name: 'nam2', symbol: 'sym', bought_price: 2.0, bought_date: DateTime(2021, 12, 23), brokerage: 'brok', shares: 1000, sold_price: 3.0, sold_date: DateTime(2021, 12, 27)),
-    Stock(name: 'nam3', symbol: 'sym', bought_price: 2.0, bought_date: DateTime(2021, 12, 23), brokerage: 'brok', shares: 1000, sold_price: 3.0, sold_date: DateTime(2021, 12, 27)),
-    Stock(name: 'nam4', symbol: 'sym', bought_price: 2.0, bought_date: DateTime(2021, 12, 23), brokerage: 'brok', shares: 1000, sold_price: 3.0, sold_date: DateTime(2021, 12, 27)),
-    Stock(name: 'nam5', symbol: 'sym', bought_price: 2.0, bought_date: DateTime(2021, 12, 23), brokerage: 'brok', shares: 1000, sold_price: 3.0, sold_date: DateTime(2021, 12, 27)),
-    Stock(name: 'nam6', symbol: 'sym', bought_price: 2.0, bought_date: DateTime(2021, 12, 23), brokerage: 'brok', shares: 1000, sold_price: 3.0, sold_date: DateTime(2021, 12, 27)),
-    Stock(name: 'nam7', symbol: 'sym', bought_price: 2.0, bought_date: DateTime(2021, 12, 23), brokerage: 'brok', shares: 1000, sold_price: 3.0, sold_date: DateTime(2021, 12, 27)),
-    Stock(name: 'nam8', symbol: 'sym', bought_price: 2.0, bought_date: DateTime(2021, 12, 23), brokerage: 'brok', shares: 1000, sold_price: 3.0, sold_date: DateTime(2021, 12, 27)),
-    Stock(name: 'nam9', symbol: 'sym', bought_price: 2.0, bought_date: DateTime(2021, 12, 23), brokerage: 'brok', shares: 1000, sold_price: 1.0, sold_date: DateTime(2021, 12, 27)),
+    Stock(name: 'nam1', symbol: 'sym', bought_price: 2.0, bought_date: DateTime(2021, 12, 23), brokerage: 'brok', shares: 1000, is_US: true, sold_price: 3.0, sold_date: DateTime(2021, 12, 27)),
+    Stock(name: 'nam2', symbol: 'sym', bought_price: 2.0, bought_date: DateTime(2021, 12, 23), brokerage: 'brok', shares: 1000, is_US: true, sold_price: 3.0, sold_date: DateTime(2021, 12, 27)),
+    Stock(name: 'nam3', symbol: 'sym', bought_price: 2.0, bought_date: DateTime(2021, 12, 23), brokerage: 'brok', shares: 1000, is_US: true, sold_price: 3.0, sold_date: DateTime(2021, 12, 27)),
+    Stock(name: 'nam4', symbol: 'sym', bought_price: 2.0, bought_date: DateTime(2021, 12, 23), brokerage: 'brok', shares: 1000, is_US: true, sold_price: 3.0, sold_date: DateTime(2021, 12, 27)),
+    Stock(name: 'nam5', symbol: 'sym', bought_price: 2.0, bought_date: DateTime(2021, 12, 23), brokerage: 'brok', shares: 1000, is_US: true, sold_price: 3.0, sold_date: DateTime(2021, 12, 27)),
+    Stock(name: 'nam6', symbol: 'sym', bought_price: 2.0, bought_date: DateTime(2021, 12, 23), brokerage: 'brok', shares: 1000, is_US: true, sold_price: 3.0, sold_date: DateTime(2021, 12, 27)),
+    Stock(name: 'nam7', symbol: 'sym', bought_price: 2.0, bought_date: DateTime(2021, 12, 23), brokerage: 'brok', shares: 1000, is_US: true, sold_price: 3.0, sold_date: DateTime(2021, 12, 27)),
+    Stock(name: 'nam8', symbol: 'sym', bought_price: 2.0, bought_date: DateTime(2021, 12, 23), brokerage: 'brok', shares: 1000, is_US: true, sold_price: 3.0, sold_date: DateTime(2021, 12, 27)),
+    Stock(name: 'nam9', symbol: 'sym', bought_price: 2.0, bought_date: DateTime(2021, 12, 23), brokerage: 'brok', shares: 1000, is_US: true, sold_price: 1.0, sold_date: DateTime(2021, 12, 27)),
   ];
 
   List<Stock> stocks = [];

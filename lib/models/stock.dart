@@ -11,13 +11,14 @@ class Stock {
   DateTime bought_date = DateTime.parse('2021-12-12');
   String brokerage = 'eg';
   int shares = 0;
+  bool is_US = false;
   double? sold_price = 0.0;
   DateTime? sold_date = DateTime.parse('2021-12-12');//can look to use DateFormat
 
   //bool isLoadingCurrPrice = true;//initially used in invest.dart to get the curr price when building the ListTile
   double? currPrice;
 
-  Stock({this.id, required this.name, required this.symbol, required this.bought_price,required this.bought_date, required this.brokerage, required this.shares, this.sold_price, this.sold_date});
+  Stock({this.id, required this.name, required this.symbol, required this.bought_price,required this.bought_date, required this.brokerage, required this.shares, required this.is_US, this.sold_price, this.sold_date});
 
   Stock.zero();
 
@@ -34,6 +35,7 @@ class Stock {
       'bought_date': bought_date.toIso8601String(),//convert for easier storage in sqlite
       'brokerage': brokerage,
       'lots': shares,
+      'is_US': is_US ? 1 : 0,
       'sold_price': sold_price,
       'sold_date': isoSoldDate,
     };
@@ -54,6 +56,7 @@ class Stock {
       bought_price: map['bought_price'] as double,
       bought_date: DateTime.parse(map['bought_date'] as String),
       shares: map['lots'],
+      is_US: map['is_US'] == 1 ? true : false,
       sold_price: map['sold_price'] as double?,
       sold_date: mapSoldDate,//must always handle the null values!!
     );
@@ -115,35 +118,40 @@ class Stock {
     }
   } 
 
-  void updateStock(String editedName, String editedSymbol, double editedBought_price, DateTime editedBought_date, String editedBrokerage, int editedShares, double? editedSold_price, DateTime? editedSold_date) {
+  void updateStock(String editedName, String editedSymbol, double editedBought_price, DateTime editedBought_date, String editedBrokerage, int editedShares, bool editedIs_US, double? editedSold_price, DateTime? editedSold_date) {
     this.name = editedName;
     this.symbol = editedSymbol;
     this.bought_price = editedBought_price;
     this.bought_date = editedBought_date;
     this.brokerage = editedBrokerage;
     this.shares = editedShares;
+    this.is_US = editedIs_US;
     this.sold_price = editedSold_price;
     this.sold_date = editedSold_date;
   }
 
   Future<void> getCurrPrice() async {//shld only be called if sold_price=null
     try {
-      print("!!!!!!!getcurr");
-      String apiKey = 'NNYYWKK428VQMEXM';
-      String url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=$symbol&apikey=$apiKey";
+      if (is_US == true) {
+        print("!!!!!!!getcurr");
+        String apiKey = 'NNYYWKK428VQMEXM';
+        String url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=$symbol&apikey=$apiKey";
 
-      Response response = await get(Uri.parse(url));//need on wifi
-      print(response.body);
-      Map globalQuoteMap = json.decode(response.body);
-      if (globalQuoteMap['Global Quote'] != null) {
-        print("~~~~~~~$globalQuoteMap");
-        String? openPrice = globalQuoteMap['Global Quote']!['02. open'];
-        print("~~~~~~~~$openPrice");
-        if (openPrice != null) {
-          currPrice = double.parse(openPrice);
-        } else {
-          currPrice = null;
+        Response response = await get(Uri.parse(url));//need on wifi
+        print(response.body);
+        Map globalQuoteMap = json.decode(response.body);
+        if (globalQuoteMap['Global Quote'] != null) {
+          print("~~~~~~~$globalQuoteMap");
+          String? openPrice = globalQuoteMap['Global Quote']!['02. open'];
+          print("~~~~~~~~$openPrice");
+          if (openPrice != null) {
+            currPrice = double.parse(openPrice);
+          } else {
+            currPrice = null;
+          }
         }
+      } else {
+        currPrice = null;
       }
     } catch (e) {
       print(e);
@@ -152,6 +160,6 @@ class Stock {
 
   @override
   String toString() {
-    return "Stock{id: $id, stock name: $name, stock id: $symbol, brokerage: $brokerage, bought price: $bought_price, bought date: $bought_date, shares: $shares, sold price: $sold_price, sold date: $sold_date}";
+    return "Stock{id: $id, stock name: $name, stock id: $symbol, brokerage: $brokerage, bought price: $bought_price, bought date: $bought_date, shares: $shares, is_US: $is_US, sold price: $sold_price, sold date: $sold_date}";
   }
 }
