@@ -60,7 +60,9 @@ class _InvestDetailsState extends State<InvestDetails> {
             SizedBox(height:30.0),
             Text("Brokerage: ${stock.brokerage}"),
             SizedBox(height: 30.0),
-            Text("Lots: ${stock.lots.toString()}"),
+            Text("Shares: ${stock.shares.toString()}"),
+            SizedBox(height: 30.0,),
+            Text("US stock: ${stringIsUS(stock)}"),
             Expanded(//expands to take the rest of the area
               child: Align(
                 alignment: Alignment.bottomCenter,
@@ -143,5 +145,12 @@ class _InvestDetailsState extends State<InvestDetails> {
         child: s.percentageChange(),
       );
     }
+  }
+
+  String stringIsUS(Stock s) {
+    if (!s.is_US) {
+      return 'No';
+    }
+    return 'Yes';
   }
 }
