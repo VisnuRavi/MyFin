@@ -53,7 +53,7 @@ class MyFinDB {
     //print("successful create db");
   }
 
-  Future<int> insertStock(Stock stock) async {
+  /*Future<int> insertStock(Stock stock) async {
     final db = await dbInstance.database;
     final id = await db.insert('stocks', stock.toMap());
     stock.setId(id);
@@ -138,7 +138,7 @@ class MyFinDB {
       return null;
     } 
     return totalInvestments! as double;
-  }
+  }*/
 
   Future<void> close() async {
     final db = await dbInstance.database;

@@ -18,7 +18,7 @@ class _InvestFormState extends State<InvestForm> {
   double boughtPrice = 0;
   DateTime boughtDate = DateTime.now();
   String brokerage = '';
-  int lots = 0;
+  int shares = 0;
   double? soldPrice;
   DateTime? soldDate;
 
@@ -28,7 +28,7 @@ class _InvestFormState extends State<InvestForm> {
   String? initBoughtP;
   String? initBoughtD;
   String? initBrokerage;
-  String? initLots;
+  String? initShares;
   String? initSoldP;
   String? initSoldD;
 
@@ -39,7 +39,7 @@ class _InvestFormState extends State<InvestForm> {
       initBoughtP = s!.bought_price.toString();
       initBoughtD = s!.bought_date.toIso8601String().substring(0,10);
       initBrokerage = s!.brokerage;
-      initLots = s!.lots.toString();
+      initShares = s!.shares.toString();
       if (s!.sold_price != null) {
         initSoldP = s!.sold_price!.toString();
         initSoldD = s!.sold_date!.toIso8601String().substring(0,10);
@@ -190,15 +190,15 @@ class _InvestFormState extends State<InvestForm> {
                 () => (value) => brokerage = value,
                 () => (value) => brokerageValidator(value)
               ),
-              FormQuestion("Lots", 
-                initLots,
-                () => (value) => lots = int.parse(value),
+              FormQuestion("Shares", 
+                initShares,
+                () => (value) => shares = int.parse(value),
                 () => (value) => numValidator(value)
               ),
               FormQuestion("Sold Price (optional)", 
                 initSoldP,
                 () => (value) {
-                   soldPrice = double.tryParse(value);
+                   soldPrice = double.tryParse(value);//tryparse as can be empty
                    if (soldPrice != null) {
                      soldPrice = double.parse(soldPrice!.toStringAsFixed(2));
                    }
@@ -230,12 +230,12 @@ class _InvestFormState extends State<InvestForm> {
                     _formKey.currentState!.save();
 
                     if (map == null) {
-                      Stock newStock = Stock(symbol: symbol, name: name, bought_date: boughtDate, bought_price: boughtPrice, brokerage: brokerage, lots: lots, sold_price: soldPrice, sold_date: soldDate);
+                      Stock newStock = Stock(symbol: symbol, name: name, bought_date: boughtDate, bought_price: boughtPrice, brokerage: brokerage, shares: shares, sold_price: soldPrice, sold_date: soldDate);
                       StockDB.stockFns.insertStock(newStock);
                     } else {
                       //print("in else to update");
                       //print("soldp $soldPrice soldD $soldDate");
-                      s!.updateStock(name, symbol, boughtPrice , boughtDate, brokerage, lots, soldPrice, soldDate);
+                      s!.updateStock(name, symbol, boughtPrice , boughtDate, brokerage, shares, soldPrice, soldDate);
                       StockDB.stockFns.updateStock(s!);
                     }
                     /*//print(name);

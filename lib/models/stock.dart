@@ -10,14 +10,14 @@ class Stock {
   double bought_price = 0.0;
   DateTime bought_date = DateTime.parse('2021-12-12');
   String brokerage = 'eg';
-  int lots = 0;
+  int shares = 0;
   double? sold_price = 0.0;
   DateTime? sold_date = DateTime.parse('2021-12-12');//can look to use DateFormat
 
   //bool isLoadingCurrPrice = true;//initially used in invest.dart to get the curr price when building the ListTile
   double? currPrice;
 
-  Stock({this.id, required this.name, required this.symbol, required this.bought_price,required this.bought_date, required this.brokerage, required this.lots, this.sold_price, this.sold_date});
+  Stock({this.id, required this.name, required this.symbol, required this.bought_price,required this.bought_date, required this.brokerage, required this.shares, this.sold_price, this.sold_date});
 
   Stock.zero();
 
@@ -33,7 +33,7 @@ class Stock {
       'bought_price': bought_price,
       'bought_date': bought_date.toIso8601String(),//convert for easier storage in sqlite
       'brokerage': brokerage,
-      'lots': lots,
+      'lots': shares,
       'sold_price': sold_price,
       'sold_date': isoSoldDate,
     };
@@ -53,7 +53,7 @@ class Stock {
       brokerage: map['brokerage'] as String,
       bought_price: map['bought_price'] as double,
       bought_date: DateTime.parse(map['bought_date'] as String),
-      lots: map['lots'],
+      shares: map['lots'],
       sold_price: map['sold_price'] as double?,
       sold_date: mapSoldDate,//must always handle the null values!!
     );
@@ -115,13 +115,13 @@ class Stock {
     }
   } 
 
-  void updateStock(String editedName, String editedSymbol, double editedBought_price, DateTime editedBought_date, String editedBrokerage, int editedLots, double? editedSold_price, DateTime? editedSold_date) {
+  void updateStock(String editedName, String editedSymbol, double editedBought_price, DateTime editedBought_date, String editedBrokerage, int editedShares, double? editedSold_price, DateTime? editedSold_date) {
     this.name = editedName;
     this.symbol = editedSymbol;
     this.bought_price = editedBought_price;
     this.bought_date = editedBought_date;
     this.brokerage = editedBrokerage;
-    this.lots = editedLots;
+    this.shares = editedShares;
     this.sold_price = editedSold_price;
     this.sold_date = editedSold_date;
   }
@@ -152,6 +152,6 @@ class Stock {
 
   @override
   String toString() {
-    return "Stock{id: $id, stock name: $name, stock id: $symbol, brokerage: $brokerage, bought price: $bought_price, bought date: $bought_date, lots: $lots, sold price: $sold_price, sold date: $sold_date}";
+    return "Stock{id: $id, stock name: $name, stock id: $symbol, brokerage: $brokerage, bought price: $bought_price, bought date: $bought_date, shares: $shares, sold price: $sold_price, sold date: $sold_date}";
   }
 }

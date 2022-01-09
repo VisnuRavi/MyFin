@@ -60,7 +60,7 @@ class _InvestDetailsState extends State<InvestDetails> {
             SizedBox(height:30.0),
             Text("Brokerage: ${stock.brokerage}"),
             SizedBox(height: 30.0),
-            Text("Lots: ${stock.lots.toString()}"),
+            Text("Shares: ${stock.shares.toString()}"),
             Expanded(//expands to take the rest of the area
               child: Align(
                 alignment: Alignment.bottomCenter,
