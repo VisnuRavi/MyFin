@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
-import 'package:myfin/database/myfin_db.dart';
+import 'package:myfin/database/stock_db.dart';
 
 class Home extends StatefulWidget {
 
@@ -13,7 +13,7 @@ class _HomeState extends State<Home> {
   String totalInvestments = "None";
 
   getTotalInvestments() async {
-    double? investmentValue =  await MyFinDB.dbInstance.getTotalInvestments();
+    double? investmentValue =  await StockDB.stockFns.getTotalInvestments();
     if (investmentValue != null) {
       totalInvestments = investmentValue.toStringAsFixed(2);
       totalInvestments = '\$' + totalInvestments;

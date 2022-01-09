@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:myfin/form_question.dart';
 import 'package:myfin/models/stock.dart';
-import 'package:myfin/database/myfin_db.dart';
+import 'package:myfin/database/stock_db.dart';
 
 class InvestForm extends StatefulWidget {
 
@@ -231,12 +231,12 @@ class _InvestFormState extends State<InvestForm> {
 
                     if (map == null) {
                       Stock newStock = Stock(symbol: symbol, name: name, bought_date: boughtDate, bought_price: boughtPrice, brokerage: brokerage, lots: lots, sold_price: soldPrice, sold_date: soldDate);
-                      MyFinDB.dbInstance.insertStock(newStock);
+                      StockDB.stockFns.insertStock(newStock);
                     } else {
                       //print("in else to update");
                       //print("soldp $soldPrice soldD $soldDate");
                       s!.updateStock(name, symbol, boughtPrice , boughtDate, brokerage, lots, soldPrice, soldDate);
-                      MyFinDB.dbInstance.updateStock(s!);
+                      StockDB.stockFns.updateStock(s!);
                     }
                     /*//print(name);
                     //print(symbol);
