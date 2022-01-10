@@ -1,16 +1,9 @@
-# myfin
+# MyFin
 
-A new Flutter project.
+MyFin is a mobile app for those looking for a consolidated view of all their financials in 1 lightweight app. This current iteration only contains functionality with respect to investments, but more features about savings, debt, loans, properties are to come in future iterations.
 
-## Getting Started
+This app was built using Flutter, Sqflite(database storage), and AlphaVantage API(for US stock opening prices).
 
-This project is a starting point for a Flutter application.
+## Screenshots of the app
+![](docs/images/Home.jpg)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
