@@ -6,4 +6,5 @@ This app was built using Flutter, Sqflite(database storage), and AlphaVantage AP
 
 ## Screenshots of the app
 <img src='docs/images/Home.jpg' width='360' height='640'> <img src='docs/images/View_Investments.jpg' width='360' height='640'>
+<img src='docs/images/New_Investment.jpg' width='360' height='640'> <img src='docs/images/Investment_Details.jpg' width='360' height='640'>
 
