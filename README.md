@@ -5,5 +5,5 @@ MyFin is a mobile app for those looking for a consolidated view of all their fin
 This app was built using Flutter, Sqflite(database storage), and AlphaVantage API(for US stock opening prices).
 
 ## Screenshots of the app
-<img src='docs/images/Home.jpg' width='720' height='1280'>
+<img src='docs/images/Home.jpg' width='720' height='128'>
 
