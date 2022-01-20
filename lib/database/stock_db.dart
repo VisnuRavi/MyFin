@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:sqflite/sqflite.dart';
-import 'package:myfin/models/stock.dart';//try move to separate
+import 'package:myfin/models/stock.dart';
 import 'package:myfin/database/myfin_db.dart';
 
 class StockDB {
@@ -13,7 +13,6 @@ class StockDB {
     final db = await MyFinDB.dbInstance.database;
     final id = await db.insert('stocks', stock.toMap());
     stock.setId(id);
-    //print("inserted stock");
     return id;
   }
 
@@ -35,22 +34,18 @@ class StockDB {
       where: 'id = ?',
       whereArgs: [id],
       );
-    //print(maps.length);
     return maps[0];
   }
 
   Future<List<Stock>> readAllStocks() async {
-    //print("read all stocks");
     final db = await MyFinDB.dbInstance.database;
     final List<Map<String, dynamic>> maps = await db.query('stocks');
-    //print("length maps ${maps.length}");
     List<Stock> stocks = maps.map((map) => Stock.fromDB(map)).toList();//here
     for (Stock stock in stocks) {
       if (stock.sold_price == null) {
         await stock.getCurrPrice();
       }
     }
-    //print("end read all stocks");
     return stocks; 
   }
   

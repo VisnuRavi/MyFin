@@ -60,10 +60,6 @@ class Stock {
       sold_price: map['sold_price'] as double?,
       sold_date: mapSoldDate,//must always handle the null values!!
     );
-    /*if (currentStock.sold_price == null) {
-      await currentStock.getCurrPrice();
-    }*/
-
     return currentStock;
   }
 
@@ -133,12 +129,10 @@ class Stock {
   Future<void> getCurrPrice() async {//shld only be called if sold_price=null
     try {
       if (is_US == true) {
-        print("!!!!!!!getcurr");
         String apiKey = 'NNYYWKK428VQMEXM';
         String url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=$symbol&apikey=$apiKey";
 
         Response response = await get(Uri.parse(url));//need on wifi
-        print(response.body);
         Map globalQuoteMap = json.decode(response.body);
         if (globalQuoteMap['Global Quote'] != null) {
           print("~~~~~~~$globalQuoteMap");

@@ -14,10 +14,7 @@ class _InvestDetailsState extends State<InvestDetails> {
   void refreshStock() async {
     Stock editedStock = await StockDB.stockFns.readStock(stock.id!);
     setState(() {
-      //print('edit');
       stock = editedStock;
-      //print("editedStock sold: ${editedStock.sold_price}");
-      //print("stock sold: ${stock.sold_price}");
     });
   }
 
@@ -97,7 +94,6 @@ class _InvestDetailsState extends State<InvestDetails> {
                 ),
               ),
             ),
-            //Text("sdf"),
           ],
         ),
       ),

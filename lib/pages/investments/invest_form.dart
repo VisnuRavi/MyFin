@@ -155,7 +155,6 @@ class _InvestFormState extends State<InvestForm> {
     dynamic map = ModalRoute.of(context)!.settings.arguments;
     if (map != null) {
       map = map as Map<String, Stock>;
-      //print("map not null");
       s = map['stock']!;
       updateInit();
     }
@@ -243,32 +242,18 @@ class _InvestFormState extends State<InvestForm> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  //print('clicked');
                   if (_formKey.currentState!.validate()) {
-                    //print("valid");
                     _formKey.currentState!.save();
 
                     if (map == null) {
                       Stock newStock = Stock(symbol: symbol, name: name, bought_date: boughtDate, bought_price: boughtPrice, brokerage: brokerage, shares: shares, is_US: is_US, sold_price: soldPrice, sold_date: soldDate);
                       StockDB.stockFns.insertStock(newStock);
                     } else {
-                      //print("in else to update");
-                      //print("soldp $soldPrice soldD $soldDate");
                       s!.updateStock(name, symbol, boughtPrice , boughtDate, brokerage, shares, is_US, soldPrice, soldDate);
                       StockDB.stockFns.updateStock(s!);
                     }
-                    /*//print(name);
-                    //print(symbol);
-                    //print(boughtPrice);
-                    //print(boughtDate);
-                    //print(brokerage);
-                    //print(soldPrice);
-                    //print(soldDate);*/
-                    /*Stock stock = Stock(name: name, symbol: symbol, bought_price: boughtPrice, bought_date: boughtDate, brokerage: brokerage, sold_price: soldPrice, sold_date: soldDate);
-                    MyFinDB.dbInstance.insertStock(stock);*/
                     Navigator.pop(context);
                   } else {
-                    //print("invalid");
                   }
                 },
                 child: Text("Submit"),

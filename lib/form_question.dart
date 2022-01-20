@@ -37,27 +37,3 @@ class FormQuestion extends StatelessWidget {
     );
   }
 }
-/*
-class OptionalFormQuestion extends  StatelessWidget {
-  
-  String label = "";
-  Function saveFunction = () => print("uninitialised");
-  
-  OptionalFormQuestion(String label, Function saveFunction) {
-    this.label = label;
-    this.saveFunction = saveFunction;
-  }
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-      child: TextFormField(
-        decoration: InputDecoration(
-          labelText: label,
-          border: UnderlineInputBorder(),
-        ),
-        onSaved: saveFunction(),
-      )
-    );
-  }
-}*/

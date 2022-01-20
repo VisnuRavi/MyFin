@@ -144,7 +144,6 @@ class _InvestState extends State<Invest> {
       //backgroundColor: Colors.purple[50],
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          //print('clicked investform');
           await Navigator.pushNamed(context, '/invest_form');
           refreshStocksList();//has setState in it
         },

@@ -23,7 +23,6 @@ class _HomeState extends State<Home> {
     });
   }
 
-  //method
   Widget displayInvestments() {
     String display = "";
     if (isLoading) {
@@ -93,7 +92,6 @@ class _HomeState extends State<Home> {
             Center(//wrapped with center for the time being, shld wrap with row
               child: OutlinedButton(
                 onPressed: () async {
-                  //print('clicked invest');
                   await Navigator.pushNamed(context, '/invest');
                   getTotalInvestments();
                 },
